@@ -1,5 +1,5 @@
 from flask import render_template, Flask, url_for, redirect, request, make_response
-from modeloa import Erabiltzailea
+from controller import erabiltzaile_kudeaketa
 import sqlite3 
 
 app = Flask(__name__, static_url_path='', template_folder='../templates/')
@@ -22,7 +22,7 @@ def submit_registration():
     password = request.form.get('password')
     izena = request.form.get('erabiltzailea')
     posta = request.form.get('posta')
-    Erabiltzailea.gehituErabiltzailea(izena,password,posta)
+    erabiltzaile_kudeaketa.sortuErabiltzailea(izena,password,posta)
 
 @app.route('/profile')
 def profile():
