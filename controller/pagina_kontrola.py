@@ -19,10 +19,11 @@ def register():
 
 @app.route('/submit_registration', methods=['POST'])
 def submit_registration():
-    password = request.form.get('password')
-    izena = request.form.get('erabiltzailea')
-    posta = request.form.get('posta')
-    erabiltzaile_kudeaketa.sortuErabiltzailea(izena,password,posta)
+    izena = request.form['erabiltzailea']
+    email = request.form['posta']
+    pasahitza = request.form['password']
+    erabiltzaile_kudeaketa.sortuErabiltzailea(izena,pasahitza, email)
+    return redirect(url_for('login'))
 
 @app.route('/profile')
 def profile():

@@ -1,5 +1,5 @@
 from modeloa import Erabiltzailea, Pelikula, Connection
-
+db=Connection()
 
 class Filmoteka:
     def __init__(self):
@@ -7,5 +7,18 @@ class Filmoteka:
         self.pelikulak = []
         self.erabiltzailea = None
 
-def sortuErabiltzailea(izena, pasahitza, posta):
-    Erabiltzailea.gehituErabiltzailea((izena, pasahitza, posta))
+def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
+    existing_user=Erabiltzailea.getErabiltzailea(pPosta)
+    if existing_user:
+        raise ValueError("Posta horrekin dagoeneko existitzen da")
+    else:
+                 
+        izena = pIzena
+        pasahitza = pPasahitza
+        posta = pPosta 
+          
+        line_count = db.select("SELECT COUNT(*) FROM Erabiltzailea")[0][0]
+        kodePers = line_count + 1
+        alokairuKop = 0
+        adminDa = False
+        db.insert("INSERT INTO Erabiltzailea (kodePers,izena, pasahitza, posta,alokairuKop,adminDa) VALUES (?,?,?,?,?,?)", (kodePers,izena, pasahitza,posta,alokairuKop,adminDa))
