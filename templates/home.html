@@ -1,41 +1,65 @@
 <!DOCTYPE html>
-<html lang="eu">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filmoteka</title>
+    <title>Recomendaciones de Películas</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-        h1 {
-            margin-bottom: 20px;
-        }
-        .button-container {
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .buttons {
+            display: flex;
             gap: 10px;
         }
-        button {
+        .header button {
+            background-color: #555;
+            color: #fff;
+            border: none;
             padding: 10px 20px;
-            font-size: 16px;
             cursor: pointer;
+        }
+        .header button:hover {
+            background-color: #777;
+        }
+        .content {
+            padding: 20px;
+        }
+        .recommendations {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .recommendations h2 {
+            margin-top: 0;
         }
     </style>
 </head>
 <body>
-    <h1>Filmoteka</h1>
-    <div class="button-container">
-        <button onclick="location.href='app/erabiltzaile_kudeaketa.html'">Erregistroa</button>
-        <button onclick="location.href='app/erabiltzaile_kudeaketa.html'">Filma ikusi</button>
-        <button onclick="location.href='app/erabiltzaile_kudeaketa.html'">Filma proposatu</button>
-        <button onclick="location.href='app/erabiltzaile_kudeaketa.html'">Film</button>
+    <div class="header">
+        <div class="buttons">
+            <button onclick="location.href='/login'">Iniciar Sesión</button>
+            <button onclick="location.href='/register'">Registrarse</button>
+            
+        </div>
+    </div>
+    <div class="content">
+        <div class="recommendations">
+            <h2>Recomendaciones de Películas</h2>
+            <!-- Aquí puedes añadir las recomendaciones de películas -->
+        </div>
     </div>
 </body>
 </html>

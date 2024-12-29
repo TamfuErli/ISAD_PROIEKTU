@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Filmoteka</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .input-field {
+            margin: 10px 0;
+        }
+        .input-field input {
+            padding: 10px;
+            width: 200px;
+        }
+        .forgot-password {
+            margin-top: 20px;
+        }
+        .forgot-password a {
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Filmoteka</div>
+    <div class="container">
+        <div class="input-field">
+            <input type="text" placeholder="Usuario">
+        </div>
+        <div class="input-field">
+            <input type="password" placeholder="Contraseña">
+        </div>
+        <div class="forgot-password">
+            <a href="/forgot-password">Olvidar contraseña</a>
+        </div>
+    </div>
+</body>
+</html>

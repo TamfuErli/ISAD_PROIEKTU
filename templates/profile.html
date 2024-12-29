@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .buttons, .form {
+            margin: 10px;
+        }
+        .form {
+            display: none;
+            flex-direction: column;
+        }
+        .form input {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons">
+        <button onclick="showForm()">Cambiar Datos</button>
+        <button onclick="viewMovies()">Ver Lista Películas</button>
+    </div>
+    <div class="form" id="dataForm">
+        <input type="text" placeholder="Nombre">
+        <input type="text" placeholder="Apellido">
+        <input type="email" placeholder="Correo Electrónico">
+        <button>Enviar Datos</button>
+    </div>
+
+    <script>
+        function showForm() {
+            document.getElementById('dataForm').style.display = 'flex';
+        }
+
+        function viewMovies() {
+            // Aquí puedes agregar la lógica para ver la lista de películas
+            alert('Ver Lista Películas');
+        }
+    </script>
+</body>
+</html>
