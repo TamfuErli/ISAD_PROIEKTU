@@ -32,6 +32,6 @@ class Erabiltzailea:
         pass
     
 
-    def adminDa(self):
-        # Implement the logic for adminDa
-        pass
+    def adminDa(pPosta):
+        adminDa=db.select("SELECT adminDa FROM Erabiltzailea WHERE posta = ?", (pPosta,))
+        return adminDa[0][0]

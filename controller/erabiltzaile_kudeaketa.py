@@ -28,4 +28,5 @@ def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
         kodePers = line_count + 1
         alokairuKop = 0
         adminDa = False
-        db.insert("INSERT INTO Erabiltzailea (kodePers,izena, pasahitza, posta,alokairuKop,adminDa) VALUES (?,?,?,?,?,?)", (kodePers,izena, pasahitza,posta,alokairuKop,adminDa))
+        Onartua = False
+        db.insert("INSERT INTO Erabiltzailea (kodePers,izena, pasahitza, posta,alokairuKop,adminDa,Onartua) VALUES (?,?,?,?,?,?,?)", (kodePers,izena, pasahitza,posta,alokairuKop,adminDa,Onartua))
