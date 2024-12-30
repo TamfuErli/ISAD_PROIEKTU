@@ -30,8 +30,11 @@ class Erabiltzailea:
     def proposamenak(self):
         # Implement the logic for proposamenak
         pass
-    
-
+     
     def adminDa(pPosta):
         adminDa=db.select("SELECT adminDa FROM Erabiltzailea WHERE posta = ?", (pPosta,))
         return adminDa[0][0]
+    
+    def setOnartua(pPosta):
+        db.update("UPDATE Erabiltzailea SET Onartua = True WHERE posta = ?", (pPosta,))
+        

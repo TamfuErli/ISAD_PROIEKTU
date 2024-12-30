@@ -55,3 +55,14 @@ def profile():
 def admin():
     return render_template('admin.html')
 
+@app.route('/eskaerak')
+def eskaerak():
+    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileak()
+    return render_template('eskaera_lista.html', Erabiltzaileak=Erabiltzaileak)
+
+@app.route('/submit_onarpen', methods=['POST'])
+def submit_onarpen():
+    posta = request.form.get('posta')
+    erabiltzaile_kudeaketa.erabiltzaileaOnartu(posta)
+    return redirect(url_for('eskaerak'))
+
