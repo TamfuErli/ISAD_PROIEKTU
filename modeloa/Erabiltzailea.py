@@ -38,3 +38,7 @@ class Erabiltzailea:
     def setOnartua(pPosta):
         db.update("UPDATE Erabiltzailea SET Onartua = True WHERE posta = ?", (pPosta,))
         
+    def getOnartua(pPosta):
+        onartua=db.select("SELECT Onartua FROM Erabiltzailea WHERE posta = ?", (pPosta,))
+        return onartua
+        

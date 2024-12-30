@@ -19,17 +19,20 @@ def submit_login():
     posta = request.form['posta']
     pasahitza = request.form['password']
     pashitza_egokia=erabiltzaile_kudeaketa.erabiltzailea_logeatu(posta, pasahitza)
-    
+    onartua=erabiltzaile_kudeaketa.erabiltzaileaOnartua("")
     if pashitza_egokia:
-        session['adminDa'] = erabiltzaile_kudeaketa.Erabiltzailea.adminDa(posta)
-        session['loged'] = pashitza_egokia
-        session['sPosta'] = posta
-        if session['adminDa']:
-            return redirect(url_for('admin'))
+        if not onartua:
+            return redirect(url_for('login', error="Erabiltzailea ez dago onartuta"))
         else:
-            return redirect(url_for('home_loged'))
+            session['adminDa'] = erabiltzaile_kudeaketa.Erabiltzailea.adminDa(posta)
+            session['loged'] = pashitza_egokia
+            session['sPosta'] = posta
+            if session['adminDa']:
+                return redirect(url_for('admin'))
+            else:
+                return redirect(url_for('home_loged'))
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('login', error="Pasahitza okerra"))
 
 @app.route('/register')
 def register():

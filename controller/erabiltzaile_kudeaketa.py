@@ -36,3 +36,6 @@ def listaErabiltzaileak():
 def erabiltzaileaOnartu(pPosta):
     posta = pPosta
     Erabiltzailea.setOnartua(posta)
+
+def erabiltzaileaOnartua(pPosta):
+    return Erabiltzailea.getOnartua(pPosta)
