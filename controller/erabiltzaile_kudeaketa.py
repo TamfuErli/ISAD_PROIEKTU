@@ -5,7 +5,14 @@ class Filmoteka:
     def __init__(self):
         self.erabiltzaileak = []
         self.pelikulak = []
-        self.erabiltzailea = None
+        
+def erabiltzailea_logeatu(pPosta, pPasahitza):
+    pasahitza=Erabiltzailea.getPasahitza(pPosta)[0][0]
+    if pasahitza==pPasahitza:
+        return True
+    else:
+        return False
+
 
 def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
     existing_user=Erabiltzailea.getErabiltzailea(pPosta)

@@ -49,18 +49,11 @@
 </head>
 <body>
     <div class="header">
-        {% if loged %}
-            <div class="buttons">
-                <button onclick="location.href='/profile'">Perfila</button>
-                <button onclick="location.href='/propose'">Proposatu</button>
-                <button onclick="location.href='/logout'">Cerrar Sesión</button>
-            </div>
-        {% else %}
-            <div class="buttons">
-                <button onclick="location.href='/login'">Iniciar Sesión</button>
-                <button onclick="location.href='/register'">Registrarse</button>
-            </div>
-        {% endif %}
+        <div class="buttons">
+            <button onclick="location.href='/profile'">Perfila</button>
+            <button onclick="location.href='/propose'">Proposatu</button>
+            <button onclick="location.href='/logout'">Cerrar Sesión</button>
+        </div>
     </div>
     <div class="content">
         <div class="recommendations">

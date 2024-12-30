@@ -12,23 +12,33 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-        }
-        .container {
-            text-align: center;
+            background-color: #f0f0f0;
         }
         .header {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
             font-size: 24px;
             font-weight: bold;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .input-field {
             margin: 10px 0;
         }
         .input-field input {
             padding: 10px;
-            width: 200px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .forgot-password {
             margin-top: 20px;
@@ -42,15 +52,15 @@
 <body>
     <div class="header">Filmoteka</div>
     <div class="container">
-        <div class="input-field">
-            <input type="text" placeholder="Usuario">
-        </div>
-        <div class="input-field">
-            <input type="password" placeholder="Contraseña">
-        </div>
-        <div class="forgot-password">
-            <a href="/forgot-password">Olvidar contraseña</a>
-        </div>
+        <form action="{{ url_for('submit_login') }}" method="post">
+            <div class="input-field">
+                <input type="text" name="posta" placeholder="Posta jarri" required>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" placeholder="Pasahitza" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
     </div>
 </body>
 </html>

@@ -16,6 +16,13 @@ class Erabiltzailea:
     def getErabiltzailea(posta):
         return db.select("SELECT * FROM Erabiltzailea WHERE posta = ?", (posta,))
 
+    def getPasahitza(posta):
+        return db.select("SELECT pasahitza FROM Erabiltzailea WHERE posta = ?", (posta,))
+    
+    
+    def getPosta(posta):
+        return db.select("SELECT posta FROM Erabiltzailea WHERE posta = ?", (posta,))
+    
     def bereAlokairua(self):
         # Implement the logic for proposamenak
         pass
