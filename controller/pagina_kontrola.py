@@ -21,7 +21,7 @@ def submit_login():
     pashitza_egokia=erabiltzaile_kudeaketa.erabiltzailea_logeatu(posta, pasahitza)
     onartua=erabiltzaile_kudeaketa.erabiltzaileaOnartua("")
     if pashitza_egokia:
-        if not onartua:
+        if onartua==0:
             return redirect(url_for('login', error="Erabiltzailea ez dago onartuta"))
         else:
             session['adminDa'] = erabiltzaile_kudeaketa.Erabiltzailea.adminDa(posta)
