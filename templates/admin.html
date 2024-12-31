@@ -5,11 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            padding: 10px;
+            position: absolute;
+            top: 0;
+        }
         .button-container {
             display: flex;
-            justify-content: flex-start;
             gap: 10px;
-            padding: 10px;
+            margin-top: 20px;
+            flex-direction: column; 
         }
         .button-container button {
             padding: 10px 20px;
@@ -18,37 +37,15 @@
         }
     </style>
 </head>
-<style>
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: black;
-        color: white;
-        padding: 10px;
-    }
-    .button-container {
-        display: flex;
-        gap: 10px;
-    }
-    .button-container button {
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-</style>
-</head>
 <body>
 <div class="header">
-    <div class="button-container">
-        <button onclick="location.href='/eskaerak'">Eskaera Lista</button>
-        <button onclick="location.href='/aldatu_datuak'">Aldatu Datuak</button>
-        <button onclick="location.href='/ezabatu_erabiltzailea'">Erabiltzaile Lista</button>
-        <button onclick="location.href='/'">Itxi</button>
-    </div>
-    <div class="title">
-        <h1>Filmoteka</h1>
-    </div>
+    <h1>Filmoteka</h1>
+</div>
+<div class="button-container">
+    <button onclick="location.href='/eskaerak'">Eskaera Lista</button>
+    <button onclick="location.href='/aldatu_datuak'">Aldatu Datuak</button>
+    <button onclick="location.href='/ezabatu_erabiltzailea'">Ezabatu Erabiltzaileak</button>
+    <button onclick="location.href='/'">Itxi</button>
 </div>
 </body>
 </html>

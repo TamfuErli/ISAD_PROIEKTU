@@ -92,6 +92,20 @@ def submit_ezabatu():
     erabiltzaile_kudeaketa.erabiltzaileaEzabatu(posta)
     return redirect(url_for('ezabatu_erabiltzailea'))
 
+@app.route('/aldatu_datuak')
+def aldatu_datuak():
+    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta()
+    return render_template('datu_erabiltzaile_aldatu.html', Erabiltzaileak=Erabiltzaileak)
+
+@app.route('/update_user', methods=['POST']) 
+def update_user():
+    posta = request.form.get('posta')
+    izena = request.form.get('izena')
+    ePosta = request.form.get('ePosta')
+    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, )
+    return redirect(url_for('aldatu_datuak'))
+    pass
+
 @app.route('/logout')
 def logout():
     session.clear()
