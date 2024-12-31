@@ -3,48 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <title>Filmoteka</title>
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
-            flex-direction: column;
+            margin: 0;
         }
-        .buttons, .form {
+        .header {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .buttons button {
             margin: 10px;
-        }
-        .form {
-            display: none;
-            flex-direction: column;
-        }
-        .form input {
-            margin: 5px 0;
+            padding: 10px 20px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>Filmoteka</h1>
+    </div>
     <div class="buttons">
-        <button onclick="showForm()">Cambiar Datos</button>
-        <button onclick="viewMovies()">Ver Lista Películas</button>
+        <button onclick="location.href='/home_loged'">Home</button>
+        <button onclick="location.href='/datuak_aldatu'">Aldatu datuak</button>
     </div>
-    <div class="form" id="dataForm">
-        <input type="text" placeholder="Nombre">
-        <input type="text" placeholder="Apellido">
-        <input type="email" placeholder="Correo Electrónico">
-        <button>Enviar Datos</button>
-    </div>
-
-    <script>
-        function showForm() {
-            document.getElementById('dataForm').style.display = 'flex';
-        }
-
-        function viewMovies() {
-            // Aquí puedes agregar la lógica para ver la lista de películas
-            alert('Ver Lista Películas');
-        }
-    </script>
 </body>
 </html>

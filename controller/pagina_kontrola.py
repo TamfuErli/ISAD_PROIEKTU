@@ -54,6 +54,18 @@ def home_loged():
 def profile():
     return render_template('profile.html')
 
+@app.route('/datuak_aldatu')
+def datuak_aldatu():
+    return render_template('datuak_aldatu.html')
+
+@app.route('/submit_datuak', methods=['POST'])
+def submit_datuak():
+    izena = request.form['izenBerria']
+    email = request.form['emailBerria']
+    sPosta = session['sPosta']
+    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, email, sPosta)
+    return redirect(url_for('home_loged'))
+
 @app.route('/admin')
 def admin():
     return render_template('admin.html')
@@ -69,3 +81,18 @@ def submit_onarpen():
     erabiltzaile_kudeaketa.erabiltzaileaOnartu(posta)
     return redirect(url_for('eskaerak'))
 
+@app.route("/ezabatu_erabiltzailea")
+def ezabatu_erabiltzailea():
+    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta()
+    return render_template('ezabatu_erabiltzailea.html', Erabiltzaileak=Erabiltzaileak)
+
+@app.route('/submit_ezabatu', methods=['POST'])
+def submit_ezabatu():
+    posta = request.form.get('posta')
+    erabiltzaile_kudeaketa.erabiltzaileaEzabatu(posta)
+    return redirect(url_for('ezabatu_erabiltzailea'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))

@@ -1,8 +1,9 @@
+from flask import session
 from modeloa import Erabiltzailea, Pelikula, Connection
 db=Connection()
 
 def erabiltzailea_logeatu(pPosta, pPasahitza):
-    pasahitza=Erabiltzailea.getPasahitza(pPosta)[0][0]
+    pasahitza=Erabiltzailea.getPasahitza(pPosta)
     if pasahitza==pPasahitza:
         return True
     else:
@@ -33,9 +34,19 @@ def listaErabiltzaileak():
     erabiltzaileak = db.select("SELECT * FROM Erabiltzailea WHERE Onartua = 0") 
     return [Erabiltzailea(*erabiltzailea) for erabiltzailea in erabiltzaileak]
 
+def listaErabiltzaileakOnartuta():
+    erabiltzaileak = db.select("SELECT * FROM Erabiltzailea WHERE Onartua = 1") 
+    return [Erabiltzailea(*erabiltzailea) for erabiltzailea in erabiltzaileak]
+
 def erabiltzaileaOnartu(pPosta):
     posta = pPosta
     Erabiltzailea.setOnartua(posta)
 
 def erabiltzaileaOnartua(pPosta):
     return Erabiltzailea.getOnartua(pPosta)
+
+def aldatuErabiltzailea(pIzena,pPosta,sPosta):
+    izena = pIzena
+    posta = pPosta
+    db.update("UPDATE Erabiltzailea SET izena = ?, posta= ? WHERE posta = ?", (izena,posta,sPosta))
+    session['sPosta'] = posta

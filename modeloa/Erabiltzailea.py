@@ -17,7 +17,7 @@ class Erabiltzailea:
         return db.select("SELECT * FROM Erabiltzailea WHERE posta = ?", (posta,))
 
     def getPasahitza(posta):
-        return db.select("SELECT pasahitza FROM Erabiltzailea WHERE posta = ?", (posta,))
+        return db.select("SELECT pasahitza FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
     
     
     def getPosta(posta):
