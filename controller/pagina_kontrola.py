@@ -70,6 +70,10 @@ def submit_datuak():
 def admin():
     return render_template('admin.html')
 
+@app.route('/alokairu')
+def alokairu():
+    return render_template('alokairu.html')
+
 @app.route('/eskaerak')
 def eskaerak():
     Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileak()

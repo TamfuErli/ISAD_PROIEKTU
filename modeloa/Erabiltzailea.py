@@ -42,3 +42,4 @@ class Erabiltzailea:
         onartua=db.select("SELECT Onartua FROM Erabiltzailea WHERE posta = ?", (pPosta,))
         return onartua
         
+        

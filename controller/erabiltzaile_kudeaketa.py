@@ -1,5 +1,5 @@
 from flask import session
-from modeloa import Erabiltzailea, Pelikula, Connection
+from modeloa import Erabiltzailea, Pelikula, PelikulaList, Connection
 db=Connection()
 
 def erabiltzailea_logeatu(pPosta, pPasahitza):
@@ -9,6 +9,18 @@ def erabiltzailea_logeatu(pPosta, pPasahitza):
     else:
         return False
 
+def filmAlokairuaErakutsi():
+    posta = session.get('sPosta')
+    if not posta:
+        raise ValueError("Erabiltzailea ez dago saio hasita")
+
+    erabiltzailea = db.select("SELECT kodePers FROM Erabiltzailea WHERE posta = ?", (posta,))
+    if not erabiltzailea:
+        raise ValueError("Erabiltzailea ez da existitzen")
+
+    kodePers = erabiltzailea[0][0]
+    pelikulak = db.select("SELECT Pelikula.* FROM Alokairua JOIN Pelikula ON Alokairua.pelikulaId = Pelikula.id WHERE Alokairua.erabiltzaileaId = ?", (kodePers,))
+    return [Pelikula(*pelikula) for pelikula in pelikulak]
 
 def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
     existing_user=Erabiltzailea.getErabiltzailea(pPosta)
