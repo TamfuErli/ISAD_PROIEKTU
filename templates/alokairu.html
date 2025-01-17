@@ -6,21 +6,29 @@
     <title>Filmoteka</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             height: 100vh;
-            margin: 0;
+            background-color: #f0f0f0;
         }
         .header {
-            width: 100%;
             background-color: #333;
             color: white;
-            text-align: center;
+            width: 100%;
             padding: 10px 0;
-            position: absolute;
+            text-align: center;
+            position: fixed;
             top: 0;
+            z-index: 1000;
+        }
+        .content {
+            margin-top: 400px;
+            text-align: center;
+            width: 100%;
         }
         .buttons {
             display: flex;
@@ -40,19 +48,17 @@
     <div class="header">
         <h1>Filmoteka: Alokatutako filmak</h1>
     </div>
-    <div>
-        <h3> </h3>
-    {% if pelikula_list %}
-        <ul>
-            {% for pelikula in pelikula_list %}
-                <li>{{ pelikula.izena }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Ez dago alokatutako filmarik.</p>
-    {% endif %}
+    <div class="content">
+        {% if pelikula_list %}
+            <ul>
+                {% for pelikula in pelikula_list %}
+                    <li>{{ pelikula.izena }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Ez dago alokatutako filmarik.</p>
+        {% endif %}
     </div>
-    
     <div class="buttons">
         <button onclick="location.href='/profile'">Atzera</button>
     </div>
