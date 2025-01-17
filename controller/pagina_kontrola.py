@@ -1,6 +1,8 @@
-from flask import render_template, Flask, session, url_for, redirect, request, make_response
-from controller import erabiltzaile_kudeaketa
+from flask import render_template, Flask, session, url_for, redirect, request, make_response, request, jsonify
+from controller import erabiltzaile_kudeaketa, film_kudeaketa
 import sqlite3 
+import requests
+from modeloa import Erabiltzailea, Pelikula, PelikulaList, Connection
 
 app = Flask(__name__, static_url_path='', template_folder='../templates/')
 app.secret_key = 'super secret key'
@@ -113,4 +115,49 @@ def update_user():
 @app.route('/logout')
 def logout():
     session.clear()
+    currentUser = None
     return redirect(url_for('home'))
+
+@app.route('/propose', methods=['GET', 'POST'])
+def propose():
+    api_key = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWUwYjAwZjFjZGRiZDMxZDQ0ODdkMWI1NGI3NzdlOSIsIm5iZiI6MTcyODY3OTU5Mi4wMzY4ODUsInN1YiI6IjY3MDdhYjM1ZDA2MTZjN2IxOWZiNTUwNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.VM6BTKuWFqgaYTCqphxpAzRMPNZ1nmIBIVXOTF7tpC0"
+    url_base = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc&page="
+    search_url = "https://api.themoviedb.org/3/search/movie?query={query}&language=en-US&page={page}&include_adult=false"
+
+    page = request.args.get('page', default=1, type=int)
+    query = request.args.get('query', default="", type=str)
+
+    if query:
+        url = search_url.format(query=query, page=page)
+    else:
+        url = f"{url_base}{page}"
+
+    response = requests.get(url, headers={"Authorization": api_key})
+
+    movies = response.json()
+    total_pages = movies.get('total_pages', 1)
+    movies_results = movies.get('results', [])
+
+    return render_template('propose.html', movies=movies_results, current_page=page, total_pages=total_pages, valid_page=True, query=query)
+
+
+@app.route('/save_movie', methods=['POST'])
+def save_movie():
+    data = request.json
+    kodeFilma = data['id']
+    izena = data['title']
+    poster_path = data['poster_path']
+    deskripzioa = data['overview']
+    balorazioa = data['vote_average']
+    data = data['release_date']
+    onartua = 0
+    film_kudeaketa.gehituFilma(kodeFilma, izena, poster_path, deskripzioa, balorazioa, data, onartua)
+    emaitza = film_kudeaketa.gehituEskaera(kodeFilma, Erabiltzailea.getErabiltzaileKodea(session['sPosta']))
+
+    return {'success': emaitza}
+
+@app.route('/get_saved_movies', methods=['GET'])
+def get_saved_movies():
+    saved_movies=Pelikula.getPelikulaKodeGuztiak()
+    print(saved_movies)
+    return jsonify([x[0] for x in saved_movies])

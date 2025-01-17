@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposatu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .header button {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .header button:hover {
+      background-color: #777;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .movie {
+      position: relative;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .movie:hover {
+      transform: scale(1.05);
+    }
+
+    .movie img {
+      width: 100%;
+      height: auto;
+    }
+
+    .movie-title {
+      padding: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+    }
+
+    .movie-info {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 15px;
+      box-sizing: border-box;
+      transition: opacity 0.3s ease;
+    }
+
+    .movie:hover .movie-info {
+      opacity: 1;
+    }
+
+    .movie-info p {
+      margin: 5px 0;
+      font-size: 12px;
+      line-height: 1.4;
+      word-wrap: break-word;
+      overflow: auto;
+      max-height: 90%;
+    }
+
+    .movie-info p:first-of-type {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .pagination {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .pagination a {
+      margin: 0 5px;
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .pagination a:hover {
+      background-color: #0056b3;
+    }
+
+    .pagination a.disabled {
+      background-color: #ddd;
+      color: #bbb;
+      pointer-events: none;
+    }
+
+    .search-bar {
+      text-align: left;
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      font-size: 16px;
+      width: 50%;
+      max-width: 500px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .search-bar button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056b3;
+    }
+    .content {
+      padding: 20px;
+    }
+    .recommendations {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #confirmModal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      z-index: 1000;
+      width: 300px;
+      text-align: center;
+    }
+
+    #confirmModal p {
+      margin-bottom: 20px;
+    }
+
+    #confirmModal button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #confirmButton {
+      background-color: #007bff;
+      color: white;
+    }
+
+    #cancelButton {
+      background-color: #dc3545;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+    <div class="header">
+        <div class="buttons">
+            <button onclick="location.href='/profile'">Perfila</button>
+            <button onclick="location.href='/logout'">Saioa itxi</button>
+        </div>
+    </div>
+  <div class="search-bar">
+    <button onclick="window.location.href='/'" style="margin-right: 10px; padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      🏠 Hasiera
+    </button>
+    <input type="text" id="searchInput" placeholder="Bilatu filma...">
+    <button onclick="performSearch()">Search</button>
+  </div>
+
+  <div class="grid" id="movieGrid">
+    {% for movie in movies %}
+    <div class="movie" data-movie-id="{{ movie['id'] }}">
+      <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+      <div class="movie-title">{{ movie['title'] }}</div>
+      <div class="movie-info">
+        <p>⭐ {{ movie['vote_average'] }}</p>
+        <p>📅 {{ movie['release_date'] }}</p>
+        <p>{{ movie['overview'] }}</p>
+      </div>
+      <div class="movie-status"></div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    {% if current_page > 1 %}
+      <a href="/propose?query={{ query }}&page={{ current_page - 1 }}">Previous</a>
+    {% else %}
+      <a href="#" class="disabled">Previous</a>
+    {% endif %}
+
+    {% set range_start = current_page - 2 if current_page - 2 > 0 else 1 %}
+    {% set range_end = current_page + 2 if current_page + 2 <= total_pages else total_pages %}
+
+    {% for page_num in range(range_start, range_end + 1) %}
+      <a href="/propose?query={{ query }}&page={{ page_num }}" class="{% if page_num == current_page %}disabled{% endif %}">{{ page_num }}</a>
+    {% endfor %}
+
+    {% if current_page < total_pages %}
+      <a href="/propose?query={{ query }}&page={{ current_page + 1 }}">Next</a>
+    {% else %}
+      <a href="#" class="disabled">Next</a>
+    {% endif %}
+</div>
+
+  <div id="confirmModal">
+    <p id="modalText">Eskaera egin nahi duzu?</p>
+    <button id="confirmButton">Bai</button>
+    <button id="cancelButton" onclick="closeModal()">Ez</button>
+  </div>
+
+  <script>
+    function performSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (query) {
+        window.location.href = `/propose?query=${encodeURIComponent(query)}&page=1`;
+      }
+    }
+
+    function openModal(movieId, title, posterPath, overview, voteAverage, releaseDate) {
+      document.getElementById('confirmModal').style.display = 'block';
+      const confirmButton = document.getElementById('confirmButton');
+
+      confirmButton.onclick = function() {
+        saveMovie(movieId, title, posterPath, overview, voteAverage, releaseDate);
+        closeModal();
+      };
+    }
+
+    function closeModal() {
+      document.getElementById('confirmModal').style.display = 'none';
+    }
+
+    function saveMovie(id, title, posterPath, overview, voteAverage, releaseDate) {
+      fetch('/save_movie', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+          title: title,
+          poster_path: posterPath,
+          overview: overview,
+          vote_average: voteAverage,
+          release_date: releaseDate,
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Eskaera eginda');
+            location.reload();
+          } else {
+            alert('Eskaera hau jadanik existitzen da');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    fetch('/get_saved_movies')
+  .then(response => response.json())
+  .then(savedMovies => {
+    const movieElements = document.querySelectorAll('.movie');
+
+    movieElements.forEach(movieElement => {
+      const movieId = Number(movieElement.getAttribute('data-movie-id')); // Convertir a número para asegurar tipo
+
+      if (savedMovies.includes(movieId)) {
+        const statusElement = movieElement.querySelector('.movie-status');
+        statusElement.textContent = '✅ Katalogoan eskuragarri';
+        statusElement.style.color = 'green';
+        statusElement.style.fontWeight = 'bold';
+
+        // Deshabilitar interacción si ya está guardada
+        movieElement.onclick = null;
+        movieElement.style.cursor = 'not-allowed';
+      } else {
+        movieElement.onclick = () => {
+          const title = movieElement.querySelector('.movie-title').textContent;
+          const posterPath = movieElement.querySelector('img').src.replace('https://image.tmdb.org/t/p/w500', '');
+          const voteAverage = movieElement.querySelector('.movie-info p:nth-child(1)').textContent.replace('⭐', '').trim();
+          const releaseDate = movieElement.querySelector('.movie-info p:nth-child(2)').textContent.replace('📅', '').trim();
+          const overview = movieElement.querySelector('.movie-info p:nth-child(3)').textContent.trim();
+
+          openModal(movieId, title, posterPath, overview, voteAverage, releaseDate);
+        };
+      }
+    });
+  })
+  .catch(error => console.error('Error al cargar las películas guardadas:', error));
+
+  </script>
+</body>
+</html>
