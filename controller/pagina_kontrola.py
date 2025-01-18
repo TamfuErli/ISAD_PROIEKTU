@@ -1,7 +1,6 @@
 from flask import render_template, Flask, session, url_for, redirect, request, make_response, request, jsonify
 from controller import erabiltzaile_kudeaketa, film_kudeaketa
 import sqlite3 
-import requests
 from modeloa import Erabiltzailea, Pelikula, PelikulaList, Connection
 
 app = Flask(__name__, static_url_path='', template_folder='../templates/')
@@ -108,7 +107,7 @@ def update_user():
     posta = request.form.get('posta')
     izena = request.form.get('izena')
     ePosta = request.form.get('ePosta')
-    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, )
+    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, ePosta)
     return redirect(url_for('aldatu_datuak'))
     pass
 
