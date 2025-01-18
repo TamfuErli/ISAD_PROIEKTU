@@ -1,6 +1,7 @@
 import datetime
-from flask import session
+from flask import jsonify, session
 from modeloa import Erabiltzailea, Alokairua, Pelikula, PelikulaList, Connection
+import json
 db=Connection()
 
 def erabiltzailea_logeatu(pPosta, pPasahitza):
@@ -49,7 +50,18 @@ def listaErabiltzaileak():
 
 def listaErabiltzaileakOnartuta():
     erabiltzaileak = db.select("SELECT * FROM Erabiltzailea WHERE Onartua = 1") 
-    return [Erabiltzailea(*erabiltzailea) for erabiltzailea in erabiltzaileak]
+    erabiltzaile_json = [
+        {
+            "kodePers": erabiltzailea[0],
+            "izena": erabiltzailea[1],
+            "posta": erabiltzailea[3],
+            "alokairuKop": erabiltzailea[4],
+            "adminDa": erabiltzailea[5],
+            "Onartua": erabiltzailea[6]
+        }
+        for erabiltzailea in erabiltzaileak
+    ]
+    return erabiltzaile_json
 
 def erabiltzaileaOnartu(pPosta):
     posta = pPosta

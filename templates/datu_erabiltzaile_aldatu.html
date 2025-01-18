@@ -1,93 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="eu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erabiltzaile Lista</title>
+    <title>Erabiltzaileak Aldatu</title>
     <style>
         body {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
-        .header {
-            width: 100%;
+        .top-bar {
             background-color: black;
             color: white;
             padding: 10px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            width: 100%;
+            justify-content: flex-start; /* Align items to the left */
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
         }
-        .header h1 {
-            margin: 0;
+        .top-bar button {
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
         }
         table {
+            width: 80%;
             border-collapse: collapse;
-            width: 50%;
-            text-align: left;
-            margin-top: 20px;
+            margin-top: 60px; /* Adjusted to account for the fixed top bar */
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid black;
         }
         th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
         }
-        th {
-            background-color: #f2f2f2;
+        button {
+            border-radius: 5px;
+        }
+        form {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="/admin">
-            <button>Admin Orria</button>
-        </a>
-        <h1>Filmoteka</h1>
+    <div class="top-bar">
+        <button onclick="window.location.href='/admin'">Admin</button>
     </div>
     <table>
         <thead>
             <tr>
-                <th>Erabiltzaile Izena</th>
-                <th>Email</th>
-                <th>Aldatu informazioa</th> 
+                <th>Erabiltzailea</th>
+                <th>Posta</th>
+                <th>Aldatu</th>
             </tr>
         </thead>
-        <tbody>
-            {% for erabiltzaile in Erabiltzaileak %}
-            <tr>
-                <td>{{ erabiltzaile.izena }}</td>
-                <td>{{ erabiltzaile.posta }}</td>
-                <td>
-                    <button onclick="toggleForm('{{ erabiltzaile }}')">Aldatu</button>
-                    <div id="form-{{ erabiltzaile.id }}" style="display: none;">
-                        <form method="post" action="{{ url_for('update_user') }}">
-                            <label for="izena">Izena:</label>
-                            <input type="text" id="izena" name="izena" placeholder="{{ erabiltzaile.izena }}">
-                            <label for="posta">Email:</label>
-                            <input type="email" id="posta" name="posta" placeholder="{{ erabiltzaile.posta }}">
-                            <input type="hidden" name="ePosta" value="{{ erabiltzaile.posta }}">
-                            <button type="aldatu">Bidali</button>
-                           
-                        </form>
-                    </div>
-                </td>
-                <script>
-                    function toggleForm(id) {
-                        var form = document.getElementById('form-' + id);
-                        if (form.style.display === 'none') {
-                            form.style.display = 'block';
-                        } else {
-                            form.style.display = 'none';
-                        }
-                    }
-                </script> 
-            </tr>
-            {% endfor %}
+        <tbody id="user-table-body">
+            <!-- User data will be populated here -->
         </tbody>
     </table>
+
+    <div id="form-container"></div> <!-- Container for the form -->
+
+    <script>
+        fetch('/lortu_datuak')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('user-table-body');
+                data.forEach(erabiltzaile => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${erabiltzaile.izena}</td>
+                        <td>${erabiltzaile.posta}</td>
+                        <td><button onclick="openForm('${erabiltzaile.izena}', '${erabiltzaile.posta}', this)">Aldatu</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+
+        function openForm(izena, posta, button) {
+            const formHtml = `
+            <form id="update-form" action="/update_user" method="POST"> 
+                <label for="izena">Izena:</label>
+                <input type="text" id="izena" name="izena" value="${izena}">
+                <label for="posta">Posta:</label>
+                <input type="email" id="posta" name="posta" value="${posta}">
+                <button type="submit">Aldatu</button>
+            </form>
+            `;
+            const formContainer = document.getElementById('form-container');
+            formContainer.innerHTML = formHtml;
+
+            document.getElementById('update-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/update_user', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                // Handle successful update
+                alert('Erabiltzailea eguneratu da!');
+                formContainer.innerHTML = '';
+                // Optionally, refresh the user table or update the row
+                } else {
+                // Handle error
+                alert('Errorea gertatu da!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Errorea gertatu da!');
+            });
+            });
+        }
+    </script>
 </body>
 </html>

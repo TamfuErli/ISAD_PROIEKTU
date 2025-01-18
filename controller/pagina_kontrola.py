@@ -109,17 +109,19 @@ def submit_ezabatu():
 
 @app.route('/aldatu_datuak')
 def aldatu_datuak():
-    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta()
-    return render_template('datu_erabiltzaile_aldatu.html', Erabiltzaileak=Erabiltzaileak)
+    return render_template('datu_erabiltzaile_aldatu.html')
+@app.route('/lortu_datuak')
+def lortu_datuak():
+    return jsonify(erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta())
+
 
 @app.route('/update_user', methods=['POST']) 
 def update_user():
     posta = request.form.get('posta')
     izena = request.form.get('izena')
-    ePosta = request.form.get('ePosta')
-    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, ePosta)
+    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, posta)
     return redirect(url_for('aldatu_datuak'))
-    pass
+
 
 @app.route('/logout')
 def logout():
