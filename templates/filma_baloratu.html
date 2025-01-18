@@ -3,58 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIlm Valoration</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+    <title>Filma</title>
+    <script>
+        async function BalorazioaBidalli(movieId) {
+            const puntuacion = document.getElementById('puntuacion').value;
+            const comentario = document.getElementById('comentario').value;
+
+            const response = await fetch(`/rate/${movieId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ puntuacion: parseInt(puntuacion), comentario })
+            });
+
+            if (response.ok) {
+                alert("¡Gracias por tu valoración!");
+                cargarValoraciones(movieId);
+            } else {
+                const error = await response.json();
+                alert(`Error: ${error.message}`);
+            }
         }
-        .header {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: black;
-            color: white;
-            padding: 10px;
-            position: absolute;
-            top: 0;
+
+        async function cargarValoraciones(movieId) {
+            const response = await fetch(`/ratings/${movieId}`);
+            const valoraciones = await response.json();
+
+            const valoracionesDiv = document.getElementById('valoraciones');
+            valoracionesDiv.innerHTML = '';
+
+            valoraciones.forEach(v => {
+                const valoracionElement = document.createElement('div');
+                valoracionElement.innerHTML = `
+                    <p><strong>Usuario:</strong> ${v.usuario_id}</p>
+                    <p><strong>Puntuación:</strong> ${v.puntuacion}</p>
+                    <p><strong>Comentario:</strong> ${v.comentario}</p>
+                    <p><em>${v.fecha}</em></p>
+                    <hr>
+                `;
+                valoracionesDiv.appendChild(valoracionElement);
+            });
         }
-        .button-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-direction: column; 
-        }
-        .button-container button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    </script>
 </head>
 <body>
-<div class="header">
-    <h1>Filmoteka</h1>
-</div>
-<div id="rating-section">
-    <h3>Valora esta película</h3>
-    <form id="rating-form">
-        <label for="puntuacion">Puntuazioa (1-5):</label>
-        <input type="number" id="puntuacion" name="Puntuazioa" min="1" max="5" required>
-        
-        <label for="comentario">Iruzkina (ez da nahitaezkoa):</label>
-        <textarea id="comentario" name="comentario" rows="4" cols="50"></textarea>
-        
-        <button type="submit">Puntuazioa Bidali</button>
-    </form>
-</div>
+    <h1>Detalles de la Película</h1>
 
-</div>
+    <!-- Formulario de Valoración -->
+    <div id="rating-section">
+        <h3>Valora esta película</h3>
+        <form id="rating-form" onsubmit="event.preventDefault(); enviarValoracion(123);">
+            <label for="puntuacion">Puntuación (1-5):</label>
+            <input type="number" id="puntuacion" name="puntuacion" min="1" max="5" required>
+            
+            <label for="comentario">Comentario (opcional):</label>
+            <textarea id="comentario" name="comentario" rows="4" cols="50"></textarea>
+            
+            <button type="submit">Enviar valoración</button>
+        </form>
+    </div>
+
+    <!-- Valoraciones -->
+    <div id="valoraciones">
+        <h3>Valoraciones</h3>
+    </div>
+
+    <script>
+        // Cargar valoraciones al cargar la página
+        cargarValoraciones(modeloa.Pelikula.kodeFilma); 
+    </script>
 </body>
 </html>
-
