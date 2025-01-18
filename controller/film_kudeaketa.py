@@ -31,6 +31,7 @@ def gehituEskaera(kodeFilm, kodePers):
             VALUES (?, ?)
         ''', (kodeFilm, kodePers))
             return True
+        return False
     else:
         return False
        
