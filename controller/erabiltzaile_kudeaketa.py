@@ -25,7 +25,7 @@ def filmAlokairuaErakutsi():
     return [Pelikula(*pelikula) for pelikula in pelikulak]
 
 def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
-    existing_user=Erabiltzailea.getErabiltzailea(pPosta)
+    existing_user=bilatuErabiltzailea(pPosta)
     if existing_user:
         raise ValueError("Posta horrekin dagoeneko existitzen da")
     else:
@@ -98,3 +98,6 @@ def gehituAlokairua(kodeFilm, kodePers):
         return True
     else:
         return False
+
+def bilatuErabiltzailea(posta):
+    return Erabiltzailea.getErabiltzailea(posta)
