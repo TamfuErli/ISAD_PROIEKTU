@@ -35,7 +35,7 @@ def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
         posta = pPosta 
           
         line_count = db.select("SELECT COUNT(*) FROM Erabiltzailea")[0][0]
-        kodePers = line_count + 1
+        kodePers = line_count+1
         alokairuKop = 0
         adminDa = False
         Onartua = False
