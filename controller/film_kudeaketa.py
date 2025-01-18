@@ -21,7 +21,7 @@ def gehituFilma(kodeFilma, izena, poster_path, deskripzioa, balorazioa, data, on
         
 def gehituEskaera(kodeFilm, kodePers):
     existing_eskaera=Pelikula.getEskaera(kodeFilm, kodePers)
-    onartua=Pelikula.getPelikulaOnartua(kodeFilm)
+    onartua=Pelikula.getPelikulaOnartua(kodeFilm)[0][0]
     if onartua == 0:
         if not existing_eskaera:
             kodeFilm = kodeFilm
