@@ -55,10 +55,15 @@ def register():
 @app.route('/submit_registration', methods=['POST'])
 def submit_registration():
     izena = request.form['erabiltzailea']
-    email = request.form['posta']
+    posta = request.form['posta']
     pasahitza = request.form['password']
-    erabiltzaile_kudeaketa.sortuErabiltzailea(izena,pasahitza, email)
-    return redirect(url_for('login'))
+    erabiltzailea=erabiltzaile_kudeaketa.bilatuErabiltzailea(posta)
+    if erabiltzailea:
+        session["error"]=3
+        return redirect(url_for('error'))
+    else:
+        erabiltzaile_kudeaketa.sortuErabiltzailea(izena,pasahitza, posta)
+        return redirect(url_for('login'))
 
 @app.route('/home_loged')
 def home_loged():
