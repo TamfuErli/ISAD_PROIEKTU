@@ -1,6 +1,7 @@
 from flask import render_template, Flask, session, url_for, redirect, request, make_response, request, jsonify
 from controller import erabiltzaile_kudeaketa, film_kudeaketa
 import sqlite3 
+import requests
 from modeloa import Erabiltzailea, Pelikula, PelikulaList, Connection
 
 app = Flask(__name__, static_url_path='', template_folder='../templates/')
