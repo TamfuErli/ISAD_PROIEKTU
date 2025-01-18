@@ -85,8 +85,10 @@ def submit_alokairu():
 
 @app.route('/eskaerak')
 def eskaerak():
-    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileak()
-    return render_template('eskaera_lista.html', Erabiltzaileak=Erabiltzaileak)
+    return render_template('eskaera_lista.html')
+@app.route('/lortu_erabiltzaileEZOnartu')
+def lortu_erabiltzaileEZOnartu():
+    return jsonify(erabiltzaile_kudeaketa.listaErabiltzaileakEzOnartuta())
 
 @app.route('/submit_onarpen', methods=['POST'])
 def submit_onarpen():
@@ -94,10 +96,14 @@ def submit_onarpen():
     erabiltzaile_kudeaketa.erabiltzaileaOnartu(posta)
     return redirect(url_for('eskaerak'))
 
+
 @app.route("/ezabatu_erabiltzailea")
 def ezabatu_erabiltzailea():
-    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta()
-    return render_template('ezabatu_erabiltzailea.html', Erabiltzaileak=Erabiltzaileak)
+    return render_template('ezabatu_erabiltzailea.html')
+@app.route('/lortu_erabiltzaileOnartua')
+def lortu_erabiltzaileOnartua():
+    return jsonify(erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta())
+
 
 @app.route('/submit_ezabatu', methods=['POST'])
 def submit_ezabatu():

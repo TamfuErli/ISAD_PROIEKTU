@@ -40,6 +40,29 @@
             background-color: #f2f2f2;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/lortu_erabiltzaileOnartua')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('tbody');
+                    data.forEach(erabiltzaile => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${erabiltzaile.izena}</td>
+                            <td>${erabiltzaile.posta}</td>
+                            <td>
+                                <form action="{{ url_for('submit_ezabatu') }}" method="post">
+                                    <input type="hidden" name="posta" value="${erabiltzaile.posta}">
+                                    <button type="submit">Ezabatu</button>
+                                </form>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        });
+    </script>
 </head>
 <body>
     <div class="header">
@@ -57,18 +80,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for erabiltzaile in Erabiltzaileak %}
-            <tr>
-                <td>{{ erabiltzaile.izena }}</td>
-                <td>{{ erabiltzaile.posta }}</td>
-                <td>
-                    <form action="{{ url_for('submit_ezabatu') }}" method="post">
-                        <input type="hidden" name="posta" value="{{ erabiltzaile.posta }}">
-                        <button type="submit">Ezabatu</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
+            <!-- Data will be populated here by JavaScript -->
         </tbody>
     </table>
 </body>

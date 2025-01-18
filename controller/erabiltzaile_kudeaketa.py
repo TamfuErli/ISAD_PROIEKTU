@@ -44,9 +44,20 @@ def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
 def erabiltzaileaEzabatu(pPosta):
     db.delete("DELETE FROM Erabiltzailea WHERE posta = ?", (pPosta,))
     
-def listaErabiltzaileak():
+def listaErabiltzaileakEzOnartuta():
     erabiltzaileak = db.select("SELECT * FROM Erabiltzailea WHERE Onartua = 0") 
-    return [Erabiltzailea(*erabiltzailea) for erabiltzailea in erabiltzaileak]
+    erabiltzaile_json = [
+        {
+            "kodePers": erabiltzailea[0],
+            "izena": erabiltzailea[1],
+            "posta": erabiltzailea[3],
+            "alokairuKop": erabiltzailea[4],
+            "adminDa": erabiltzailea[5],
+            "Onartua": erabiltzailea[6]
+        }
+        for erabiltzailea in erabiltzaileak
+    ]
+    return erabiltzaile_json
 
 def listaErabiltzaileakOnartuta():
     erabiltzaileak = db.select("SELECT * FROM Erabiltzailea WHERE Onartua = 1") 
