@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filma</title>
+    <script>
+        async function BalorazioaBidalli(movieId) {
+            const puntuacion = document.getElementById('puntuacion').value;
+            const comentario = document.getElementById('comentario').value;
+
+            const response = await fetch(`/rate/${movieId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ puntuacion: parseInt(puntuacion), comentario })
+            });
+
+            if (response.ok) {
+                alert("¡Gracias por tu valoración!");
+                cargarValoraciones(movieId);
+            } else {
+                const error = await response.json();
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        async function cargarValoraciones(movieId) {
+            const response = await fetch(`/ratings/${movieId}`);
+            const valoraciones = await response.json();
+
+            const valoracionesDiv = document.getElementById('valoraciones');
+            valoracionesDiv.innerHTML = '';
+
+            valoraciones.forEach(v => {
+                const valoracionElement = document.createElement('div');
+                valoracionElement.innerHTML = `
+                    <p><strong>Usuario:</strong> ${v.usuario_id}</p>
+                    <p><strong>Puntuación:</strong> ${v.puntuacion}</p>
+                    <p><strong>Comentario:</strong> ${v.comentario}</p>
+                    <p><em>${v.fecha}</em></p>
+                    <hr>
+                `;
+                valoracionesDiv.appendChild(valoracionElement);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Detalles de la Película</h1>
+
+    <!-- Formulario de Valoración -->
+    <div id="rating-section">
+        <h3>Valora esta película</h3>
+        <form id="rating-form" onsubmit="event.preventDefault(); enviarValoracion(123);">
+            <label for="puntuacion">Puntuación (1-5):</label>
+            <input type="number" id="puntuacion" name="puntuacion" min="1" max="5" required>
+            
+            <label for="comentario">Comentario (opcional):</label>
+            <textarea id="comentario" name="comentario" rows="4" cols="50"></textarea>
+            
+            <button type="submit">Enviar valoración</button>
+        </form>
+    </div>
+
+    <!-- Valoraciones -->
+    <div id="valoraciones">
+        <h3>Valoraciones</h3>
+    </div>
+
+    <script>
+        // Cargar valoraciones al cargar la página
+        cargarValoraciones(modeloa.Pelikula.kodeFilma); 
+    </script>
+</body>
+</html>

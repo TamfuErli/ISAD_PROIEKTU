@@ -50,7 +50,8 @@ def submit_registration():
 
 @app.route('/home_loged')
 def home_loged():
-    return render_template('home_loged.html')
+    onartuFilmak = film_kudeaketa.onartutakoFilmak()  # Fetch approved films from the database
+    return render_template('home_loged.html', Pelikulak=onartuFilmak)
 
 @app.route('/profile')
 def profile():
@@ -108,7 +109,7 @@ def update_user():
     posta = request.form.get('posta')
     izena = request.form.get('izena')
     ePosta = request.form.get('ePosta')
-    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, )
+    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, ePosta)
     return redirect(url_for('aldatu_datuak'))
     pass
 

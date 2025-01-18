@@ -21,7 +21,7 @@ def gehituFilma(kodeFilma, izena, poster_path, deskripzioa, balorazioa, data, on
         
 def gehituEskaera(kodeFilm, kodePers):
     existing_eskaera=Pelikula.getEskaera(kodeFilm, kodePers)
-    onartua=Pelikula.getPelikulaOnartua(kodeFilm)
+    onartua=Pelikula.getPelikulaOnartua(kodeFilm)[0][0]
     if onartua == 0:
         if not existing_eskaera:
             kodeFilm = kodeFilm
@@ -34,4 +34,7 @@ def gehituEskaera(kodeFilm, kodePers):
         return False
     else:
         return False
-       
+
+def onartutakoFilmak():
+    onartutakoPelikulak = db.select("SELECT * FROM Filma WHERE onartua = 1")
+    return [Pelikula(*onartutakoPelikula) for onartutakoPelikula in onartutakoPelikulak]
