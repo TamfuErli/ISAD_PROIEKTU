@@ -114,13 +114,17 @@ def aldatu_datuak():
 @app.route('/lortu_datuak')
 def lortu_datuak():
     return jsonify(erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta())
-
-
 @app.route('/update_user', methods=['POST']) 
 def update_user():
     posta = request.form.get('posta')
     izena = request.form.get('izena')
-    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, posta)
+    ePosta = request.form.get('original_posta')
+    eIzena = request.form.get('original_izena')
+    if not posta:
+        posta = ePosta
+    if not izena:
+        izena = eIzena
+    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, ePosta)
     return redirect(url_for('aldatu_datuak'))
 
 
