@@ -33,4 +33,7 @@ def gehituEskaera(kodeFilm, kodePers):
             return True
     else:
         return False
-       
+
+def onartutakoFilmak():
+    onartutakoPelikulak = db.select("SELECT * FROM Filma WHERE onartua = 1")
+    return [Pelikula(*onartutakoPelikula) for onartutakoPelikula in onartutakoPelikulak]

@@ -45,6 +45,49 @@
         .recommendations h2 {
             margin-top: 0;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 5px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        img {
+            width: 150px;
+            height: auto;
+        }
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .film-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -54,12 +97,38 @@
             <button onclick="location.href='/propose'">Proposatu</button>
             <button onclick="location.href='/logout'">Saioa itxi</button>
         </div>
-    </div>
-    <div class="content">
-        <div class="recommendations">
-            <h2>Gomendatutako filmak</h2>
-            <!-- Aquí puedes añadir las recomendaciones de películas -->
         </div>
-    </div>
-</body>
-</html>
+        <div class="content">
+            <div class="recommendations">
+                <h2>Gomendatutako filmak</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Film Izena</th>
+                            <th>Balorazioa</th>
+                            <th>Data</th>
+                            <th></th>
+                            <th>Alokatu</th>
+                            <th>Baloratu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pelikula in Pelikulak %}
+                        <tr>
+                            <td class="film-name">{{ pelikula.izena }}</td>
+                            <td>{{ pelikula.balorazioa }}</td>
+                            <td>{{ pelikula.data }}</td>
+                            <td><img src="https://image.tmdb.org/t/p/w500{{ pelikula['poster_path'] }}" alt="{{ pelikula['title'] }}">
+                            </td>
+                            <td><button onclick="alokatuFilma(pelikula.izena)">Alokatu</button></td>
+                            <td><button onclick="baloratuFilma(pelikula.izena)">Baloratu</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </tbody>
+                </table>
+                </ul>
+            </div>
+        </div>
+        </body>
+        </html>

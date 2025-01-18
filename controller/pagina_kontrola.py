@@ -50,7 +50,8 @@ def submit_registration():
 
 @app.route('/home_loged')
 def home_loged():
-    return render_template('home_loged.html')
+    onartuFilmak = film_kudeaketa.onartutakoFilmak()  # Fetch approved films from the database
+    return render_template('home_loged.html', Pelikulak=onartuFilmak)
 
 @app.route('/profile')
 def profile():
