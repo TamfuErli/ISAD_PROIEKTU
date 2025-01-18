@@ -23,11 +23,7 @@ class Erabiltzailea:
         return db.select("SELECT kodePers FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
 
     def getPasahitza(posta):
-        onartua = db.select("SELECT Onartua FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
-        if onartua:
-            return db.select("SELECT pasahitza FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
-        else:
-            return 0
+        return db.select("SELECT pasahitza FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
 
     
     def getPosta(posta):
@@ -49,6 +45,5 @@ class Erabiltzailea:
         db.update("UPDATE Erabiltzailea SET Onartua = True WHERE posta = ?", (pPosta,))
         
     def getOnartua(pPosta):
-        onartua=db.select("SELECT Onartua FROM Erabiltzailea WHERE posta = ?", (pPosta,))
-        return onartua
+        return db.select("SELECT Onartua FROM Erabiltzailea WHERE posta = ?", (pPosta,))[0][0]
     
