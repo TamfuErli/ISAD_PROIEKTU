@@ -21,7 +21,8 @@ def submit_login():
     posta = request.form['posta']
     pasahitza = request.form['password']
     pashitza_egokia=erabiltzaile_kudeaketa.erabiltzailea_logeatu(posta, pasahitza)
-    onartua=erabiltzaile_kudeaketa.erabiltzaileaOnartua("")
+    onartua=erabiltzaile_kudeaketa.erabiltzaileaOnartua(posta)
+    print(onartua)
     if pashitza_egokia:
         if onartua==0:
             return redirect(url_for('login', error="Erabiltzailea ez dago onartuta"))

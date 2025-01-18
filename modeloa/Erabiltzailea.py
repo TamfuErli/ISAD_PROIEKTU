@@ -23,7 +23,12 @@ class Erabiltzailea:
         return db.select("SELECT kodePers FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
 
     def getPasahitza(posta):
-        return db.select("SELECT pasahitza FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
+        onartua = db.select("SELECT Onartua FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
+        if onartua:
+            return db.select("SELECT pasahitza FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
+        else:
+            return 0
+
     
     def getPosta(posta):
         return db.select("SELECT posta FROM Erabiltzailea WHERE posta = ?", (posta,))
