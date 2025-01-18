@@ -75,7 +75,15 @@ def admin():
 
 @app.route('/alokairu')
 def alokairu():
-    return render_template('alokairu.html')
+    posta = request.form.get('posta')
+    alokatutakoFilmak = film_kudeaketa.alokatutakoFilmak(posta)  # Fetch approved films from the database
+    return render_template('alokairu.html', Pelikulak=alokatutakoFilmak)
+
+@app.route('/submit_alokairu', methods=['POST'])
+def submit_alokairu():
+    kodeFilm = request.form.get('kodeFilm')
+    erabiltzaile_kudeaketa.gehituAlokairua(2,kodeFilm)
+    return redirect(url_for('alokairu'))
 
 @app.route('/eskaerak')
 def eskaerak():

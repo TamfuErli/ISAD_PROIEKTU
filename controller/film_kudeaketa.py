@@ -1,4 +1,4 @@
-from modeloa import Erabiltzailea, Pelikula
+from modeloa import Erabiltzailea, Pelikula, Alokairua
 import sqlite3
 from modeloa.Connection import Connection
 
@@ -38,3 +38,7 @@ def gehituEskaera(kodeFilm, kodePers):
 def onartutakoFilmak():
     onartutakoPelikulak = db.select("SELECT * FROM Filma WHERE onartua = 1")
     return [Pelikula(*onartutakoPelikula) for onartutakoPelikula in onartutakoPelikulak]
+
+def alokatutakoFilmak(pKodePers):
+    alokatutakoPelikulak = db.select("SELECT * FROM Alokairua WHERE kodePers = ?", (pKodePers,))
+    return [Alokairua(*alokatutakoPelikula) for alokatutakoPelikula in alokatutakoPelikulak]

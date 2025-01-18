@@ -16,6 +16,9 @@ class Erabiltzailea:
     def getErabiltzailea(posta):
         return db.select("SELECT * FROM Erabiltzailea WHERE posta = ?", (posta,))
     
+    def gehituAlokairuKop(posta):
+        db.update("UPDATE Erabiltzailea SET alokairuKop = alokairuKop + 1 WHERE posta = ?", (posta,))
+    
     def getErabiltzaileKodea(posta):
         return db.select("SELECT kodePers FROM Erabiltzailea WHERE posta = ?", (posta,))[0][0]
 
@@ -43,5 +46,4 @@ class Erabiltzailea:
     def getOnartua(pPosta):
         onartua=db.select("SELECT Onartua FROM Erabiltzailea WHERE posta = ?", (pPosta,))
         return onartua
-        
-        
+    

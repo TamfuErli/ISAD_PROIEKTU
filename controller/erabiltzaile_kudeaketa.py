@@ -1,5 +1,6 @@
+import datetime
 from flask import session
-from modeloa import Erabiltzailea, Pelikula, PelikulaList, Connection
+from modeloa import Erabiltzailea, Alokairua, Pelikula, PelikulaList, Connection
 db=Connection()
 
 def erabiltzailea_logeatu(pPosta, pPasahitza):
@@ -62,3 +63,15 @@ def aldatuErabiltzailea(pIzena,pPosta,sPosta):
     posta = pPosta
     db.update("UPDATE Erabiltzailea SET izena = ?, posta= ? WHERE posta = ?", (izena,posta,sPosta))
     session['sPosta'] = posta
+
+def gehituAlokairua(kodeFilm, kodePers):
+    existingAlokairua=Alokairua.getAlokairua(kodeFilm, kodePers)
+    if not existingAlokairua:
+        kodeFilm = kodeFilm
+        kodePers = kodePers
+        Erabiltzailea.gehituAlokairuKop()
+        data = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        db.insert("INSERT INTO Alokairua (kodeFilm, kodePers, data)  VALUES (?, ?, ?)", (kodeFilm, kodePers, data))
+        return True
+    else:
+        return False
