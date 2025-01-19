@@ -245,9 +245,8 @@ def get_balorazioak():
 
 @app.route('/submit_balorazioa', methods=['POST'])
 def submit_balorazioa():
-    pPosta = session.get('sPosta')
     kodeFilma = session['kodeFilma']
-    kodeErabiltzailea = Erabiltzailea.getErabiltzaileKodea(pPosta)
+    kodeErabiltzailea = Erabiltzailea.getErabiltzaileKodea(session['sPosta'])
     puntuazioa = request.form.get('puntuazioa')
     iruzkina = request.form.get('iruzkina')
     puntuazio_kudeaketa.gehituBalorazioa(kodeFilma, kodeErabiltzailea, puntuazioa, iruzkina)

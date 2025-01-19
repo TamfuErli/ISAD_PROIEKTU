@@ -17,14 +17,14 @@ def get_balorazioGuztiak(kodeFilma):
     ]
     return baloratuGabeJSON
     
-def gehituBalorazioa(kodeFilma, kodeErabiltzailea, puntuazioa, iruzkina):
+def gehituBalorazioa(kodeFilma, kodeErabiltzailea, nota, iruzkina):
     existing_balorazioa=Balorazioa.getBalorazioa(kodeFilma, kodeErabiltzailea)
     if not existing_balorazioa:
         kodeFilm = kodeFilma
         kodePers = kodeErabiltzailea
-        puntuazioa = puntuazioa
+        nota = nota
         iruzkina = iruzkina
-        db.insert(" INSERT INTO Puntuazioa (kodeFilm, kodePers, puntuazioa, iruzkina) VALUES (?, ?, ?, ?)", (kodeFilm, kodePers, puntuazioa, iruzkina))
+        db.insert(" INSERT INTO Puntuazioa (kodeFilm, kodePers, nota, iruzkina) VALUES (?, ?, ?, ?)", (kodeFilm, kodePers, nota, iruzkina))
         return True
     else:
         return False
