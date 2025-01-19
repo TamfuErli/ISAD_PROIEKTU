@@ -84,6 +84,23 @@
         button:hover {
             background-color: #45a049;
         }
+        .circular-button {
+            width: 80px;
+            height: 55px;
+            border-radius: 50%;
+            background-color: #4c6baf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .circular-button:hover {
+            background-color: #45a049;
+        }
         .film-name {
             font-size: 24px;
             font-weight: bold;
@@ -97,6 +114,11 @@
         .center-button button {
             font-size: 20px;
             padding: 10px 20px;
+        }
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 </head>
@@ -113,7 +135,7 @@
                         <th>Izena</th>
                         <th>Filmaren data</th>
                         <th>Irudia</th>      
-                        <th>Baloratu</th>                                
+                        <th>Akzioak</th>                                
                     </tr>
                 </thead>
                 <tbody>
@@ -124,8 +146,11 @@
                         <td><img src="https://image.tmdb.org/t/p/w500{{ filma[2] }}" alt="{{ filma[1] }}">
                         </td>               
                         <td>
+                            <div class="action-buttons">
                                 <input type="hidden" name="kodeFilma" value="{{ filma[0] }}" >
                                 <button onclick="location.href='/film_balorazioa'">Baloratu</button>
+                                <button class="circular-button" onclick="window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank')">PLAY ᐅ</button>
+                            </div>
                         </td>   
                     </tr>
                     {% endfor %}
