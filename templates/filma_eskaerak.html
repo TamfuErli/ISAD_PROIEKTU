@@ -52,8 +52,8 @@
                             <td>${filma.izena}</td>
                             <td>${filma.data}</td>
                             <td>
-                                <form action="/submit_onarpen" method="post">
-                                    <input type="hidden" name="posta" value="${filma.kodeFilm}">
+                                <form action="/filma_Onartu" method="post">
+                                    <input type="hidden" name="kodeFilm" value="${filma.kodeFilm}">
                                     <button type="submit">Onartu</button>
                                 </form>
                             </td>
