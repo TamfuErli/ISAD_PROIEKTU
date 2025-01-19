@@ -1,4 +1,4 @@
-from flask import render_template, Flask, session, url_for, redirect, request, make_response, request, jsonify
+from flask import flash, render_template, Flask, session, url_for, redirect, request, make_response, request, jsonify
 from controller import erabiltzaile_kudeaketa, film_kudeaketa
 import sqlite3 
 import requests
@@ -98,8 +98,11 @@ def alokairu():
 
 @app.route('/submit_alokairu', methods=['POST'])
 def submit_alokairu():
-    kodeFilm = request.form.get('kodeFilm')
-    erabiltzaile_kudeaketa.gehituAlokairua("a@a.a",kodeFilm)
+    pPosta = session.get('sPosta')
+    kodeFilma = request.form.get('kodeFilma')
+    result = erabiltzaile_kudeaketa.gehituAlokairua(pPosta,kodeFilma)
+    if not result['success']:
+        flash(result['message'])
     return redirect(url_for('home_loged'))
 
 @app.route('/eskaerak')

@@ -9,6 +9,7 @@ db=Connection()
 def erabiltzailea_logeatu(pPosta, pPasahitza):
     pasahitza=Erabiltzailea.getPasahitza(pPosta)
     if pasahitza==pPasahitza:
+        session['sPosta'] = pPosta
         return True
     else:
         return False
@@ -89,16 +90,16 @@ def aldatuErabiltzailea(pIzena,pPosta,sPosta):
     db.update("UPDATE Erabiltzailea SET izena = ?, posta= ? WHERE posta = ?", (izena,posta,sPosta))
     session['sPosta'] = posta
 
-def gehituAlokairua(kodePers, kodeFilm):
-    kodePP = Erabiltzailea.getErabiltzaileKodea(kodePers)
-    existingAlokairua=Alokairua.getAlokairua(kodePP, kodeFilm)
+def gehituAlokairua(pPosta, kodeFilma):
+    kodePP = Erabiltzailea.getErabiltzaileKodea(pPosta)
+    existingAlokairua=Alokairua.getAlokairua(kodeFilma, kodePP)
     if not existingAlokairua:
         Erabiltzailea.gehituAlokairuKop(kodePP)
         data = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        db.insert("INSERT INTO Alokairua (kodeFilm, kodePers, data)  VALUES (?, ?, ?)", (kodeFilm, kodePP, data))
-        return True
+        db.insert("INSERT INTO Alokairua (kodeFilm, kodePers, data)  VALUES (?, ?, ?)", (kodeFilma, kodePP, data))
+        return {"success": True}
     else:
-        return False
-
+        return {"success": False, "message": "Ezin da pelikula bera bi aldiz alokatu"}
+    
 def bilatuErabiltzailea(posta):
     return Erabiltzailea.getErabiltzailea(posta)
