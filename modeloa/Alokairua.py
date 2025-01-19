@@ -11,6 +11,7 @@ class Alokairua:
 
     def getKodeFilm(self):
         return self.kodeFilm
-    
-    def getAlokairua(kodeFilm, kodePers):
+
+    @classmethod
+    def getAlokairua(cls, kodeFilm, kodePers):
         return db.select("SELECT * FROM Alokairua WHERE kodeFilm = ? AND kodePers = ?", (kodeFilm, kodePers,))

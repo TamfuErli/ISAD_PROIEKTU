@@ -1,7 +1,9 @@
 import datetime
 from flask import jsonify, session
 from modeloa import Erabiltzailea, Alokairua, Pelikula, PelikulaList, Connection
+from modeloa.Alokairua import Alokairua
 import json
+from datetime import datetime
 db=Connection()
 
 def erabiltzailea_logeatu(pPosta, pPasahitza):
@@ -76,14 +78,13 @@ def aldatuErabiltzailea(pIzena,pPosta,sPosta):
     db.update("UPDATE Erabiltzailea SET izena = ?, posta= ? WHERE posta = ?", (izena,posta,sPosta))
     session['sPosta'] = posta
 
-def gehituAlokairua(kodeFilm, kodePers):
-    existingAlokairua=Alokairua.getAlokairua(kodeFilm, kodePers)
+def gehituAlokairua(kodePers, kodeFilm):
+    kodePP = Erabiltzailea.getErabiltzaileKodea(kodePers)
+    existingAlokairua=Alokairua.getAlokairua(kodePP, kodeFilm)
     if not existingAlokairua:
-        kodeFilm = kodeFilm
-        kodePers = kodePers
-        Erabiltzailea.gehituAlokairuKop()
+        Erabiltzailea.gehituAlokairuKop(kodePP)
         data = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        db.insert("INSERT INTO Alokairua (kodeFilm, kodePers, data)  VALUES (?, ?, ?)", (kodeFilm, kodePers, data))
+        db.insert("INSERT INTO Alokairua (kodeFilm, kodePers, data)  VALUES (?, ?, ?)", (kodeFilm, kodePP, data))
         return True
     else:
         return False

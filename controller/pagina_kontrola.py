@@ -83,8 +83,8 @@ def alokairu():
 @app.route('/submit_alokairu', methods=['POST'])
 def submit_alokairu():
     kodeFilm = request.form.get('kodeFilm')
-    erabiltzaile_kudeaketa.gehituAlokairua(2,kodeFilm)
-    return redirect(url_for('alokairu'))
+    erabiltzaile_kudeaketa.gehituAlokairua("a@a.a",kodeFilm)
+    return redirect(url_for('home_loged'))
 
 @app.route('/eskaerak')
 def eskaerak():
