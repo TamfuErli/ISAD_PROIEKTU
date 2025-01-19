@@ -212,3 +212,17 @@ def get_saved_movies():
     saved_movies=Pelikula.getPelikulaKodeGuztiak()
     print(saved_movies)
     return jsonify([x[0] for x in saved_movies])
+
+
+@app.route('/eskaera_film')
+def eskaera_film():
+    return render_template('eskaera_film.html')
+@app.route('/film_lista')
+def film_lista():
+    return jsonify(film_kudeaketa.ezOnartutakoFilmak())
+
+@app.route('/filma_Onartu', methods=['POST'])
+def filma_Onartu():
+    kodeFilm = request.form.get('kodeFilm')
+    film_kudeaketa.filmaOnartu(kodeFilm)
+    return redirect(url_for('eskaera_film'))
