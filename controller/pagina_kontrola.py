@@ -155,8 +155,12 @@ def update_user():
         posta = ePosta
     if not izena:
         izena = eIzena
-    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, ePosta)
-    return redirect(url_for('aldatu_datuak'))
+    if erabiltzaile_kudeaketa.bilatuErabiltzailea(posta):
+        session["error"]=4
+        return redirect(url_for('error'))
+    else:
+        erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, ePosta)
+        return redirect(url_for('aldatu_datuak'))
 
 
 @app.route('/logout')
