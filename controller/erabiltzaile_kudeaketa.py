@@ -27,7 +27,7 @@ def filmAlokairuaErakutsi():
     return [Pelikula(*pelikula) for pelikula in pelikulak]
 
 def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
-    existing_user=Erabiltzailea.getErabiltzailea(pPosta)
+    existing_user=bilatuErabiltzailea(pPosta)
     if existing_user:
         raise ValueError("Posta horrekin dagoeneko existitzen da")
     else:
@@ -46,9 +46,20 @@ def sortuErabiltzailea(pIzena, pPasahitza, pPosta):
 def erabiltzaileaEzabatu(pPosta):
     db.delete("DELETE FROM Erabiltzailea WHERE posta = ?", (pPosta,))
     
-def listaErabiltzaileak():
+def listaErabiltzaileakEzOnartuta():
     erabiltzaileak = db.select("SELECT * FROM Erabiltzailea WHERE Onartua = 0") 
-    return [Erabiltzailea(*erabiltzailea) for erabiltzailea in erabiltzaileak]
+    erabiltzaile_json = [
+        {
+            "kodePers": erabiltzailea[0],
+            "izena": erabiltzailea[1],
+            "posta": erabiltzailea[3],
+            "alokairuKop": erabiltzailea[4],
+            "adminDa": erabiltzailea[5],
+            "Onartua": erabiltzailea[6]
+        }
+        for erabiltzailea in erabiltzaileak
+    ]
+    return erabiltzaile_json
 
 def listaErabiltzaileakOnartuta():
     erabiltzaileak = db.select("SELECT * FROM Erabiltzailea WHERE Onartua = 1") 
@@ -88,3 +99,6 @@ def gehituAlokairua(kodePers, kodeFilm):
         return True
     else:
         return False
+
+def bilatuErabiltzailea(posta):
+    return Erabiltzailea.getErabiltzailea(posta)

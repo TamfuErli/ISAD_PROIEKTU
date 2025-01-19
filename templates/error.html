@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        .header {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Filmoteca</h1>
+    </div>
+    <div class="container">
+        {% if error == 0 %}
+            <h2>pasaitha desegokia bro</h2>
+        {% elif error == 1 %}
+            <h2>Tu ha esperar matao</h2>
+        {% elif error == 2  %}
+            <h2>PIZA QUE NO EXISTES</h2>
+        {% elif error == 3 %}
+            <h2>NO QUIERAS ROBAR A OTRO EL EMAIL PAYO</h2>
+        {% endif %}
+        <a href="/login" class="button">Go to Login</a>
+    </div>
+</body>
+</html>

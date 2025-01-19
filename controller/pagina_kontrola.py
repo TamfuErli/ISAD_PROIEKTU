@@ -20,22 +20,33 @@ def login():
 def submit_login():
     posta = request.form['posta']
     pasahitza = request.form['password']
-    pashitza_egokia=erabiltzaile_kudeaketa.erabiltzailea_logeatu(posta, pasahitza)
-    onartua=erabiltzaile_kudeaketa.erabiltzaileaOnartua(posta)
-    print(onartua)
-    if pashitza_egokia:
-        if onartua==0:
-            return redirect(url_for('login', error="Erabiltzailea ez dago onartuta"))
-        else:
-            session['adminDa'] = erabiltzaile_kudeaketa.Erabiltzailea.adminDa(posta)
-            session['loged'] = pashitza_egokia
-            session['sPosta'] = posta
-            if session['adminDa']:
-                return redirect(url_for('admin'))
+    erabilttzailea = erabiltzaile_kudeaketa.bilatuErabiltzailea(posta)
+    if erabilttzailea:
+        pashitza_egokia=erabiltzaile_kudeaketa.erabiltzailea_logeatu(posta, pasahitza)
+        onartua=erabiltzaile_kudeaketa.erabiltzaileaOnartua(posta)
+        erabilttzailea = erabiltzaile_kudeaketa.bilatuErabiltzailea(posta)
+        if onartua==1:
+            if pashitza_egokia:
+                session['adminDa'] = erabiltzaile_kudeaketa.Erabiltzailea.adminDa(posta)
+                session['loged'] = pashitza_egokia
+                session['sPosta'] = posta
+                if session['adminDa']:
+                    return redirect(url_for('admin'))
+                else:
+                    return redirect(url_for('home_loged'))
             else:
-                return redirect(url_for('home_loged'))
+                session["error"]=0
+                return redirect(url_for('error'))     
+        else:
+            session["error"]=1
+            return redirect(url_for('error'))
     else:
-        return redirect(url_for('login', error="Pasahitza okerra"))
+        session["error"]=2
+        return redirect(url_for('error'))
+
+@app.route('/error')
+def error():
+    return render_template('error.html', error=session["error"])
 
 @app.route('/register')
 def register():
@@ -44,10 +55,15 @@ def register():
 @app.route('/submit_registration', methods=['POST'])
 def submit_registration():
     izena = request.form['erabiltzailea']
-    email = request.form['posta']
+    posta = request.form['posta']
     pasahitza = request.form['password']
-    erabiltzaile_kudeaketa.sortuErabiltzailea(izena,pasahitza, email)
-    return redirect(url_for('login'))
+    erabiltzailea=erabiltzaile_kudeaketa.bilatuErabiltzailea(posta)
+    if erabiltzailea:
+        session["error"]=3
+        return redirect(url_for('error'))
+    else:
+        erabiltzaile_kudeaketa.sortuErabiltzailea(izena,pasahitza, posta)
+        return redirect(url_for('login'))
 
 @app.route('/home_loged')
 def home_loged():
@@ -88,8 +104,10 @@ def submit_alokairu():
 
 @app.route('/eskaerak')
 def eskaerak():
-    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileak()
-    return render_template('eskaera_lista.html', Erabiltzaileak=Erabiltzaileak)
+    return render_template('eskaera_lista.html')
+@app.route('/lortu_erabiltzaileEZOnartu')
+def lortu_erabiltzaileEZOnartu():
+    return jsonify(erabiltzaile_kudeaketa.listaErabiltzaileakEzOnartuta())
 
 @app.route('/submit_onarpen', methods=['POST'])
 def submit_onarpen():
@@ -97,10 +115,14 @@ def submit_onarpen():
     erabiltzaile_kudeaketa.erabiltzaileaOnartu(posta)
     return redirect(url_for('eskaerak'))
 
+
 @app.route("/ezabatu_erabiltzailea")
 def ezabatu_erabiltzailea():
-    Erabiltzaileak=erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta()
-    return render_template('ezabatu_erabiltzailea.html', Erabiltzaileak=Erabiltzaileak)
+    return render_template('ezabatu_erabiltzailea.html')
+@app.route('/lortu_erabiltzaileOnartua')
+def lortu_erabiltzaileOnartua():
+    return jsonify(erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta())
+
 
 @app.route('/submit_ezabatu', methods=['POST'])
 def submit_ezabatu():
@@ -114,13 +136,17 @@ def aldatu_datuak():
 @app.route('/lortu_datuak')
 def lortu_datuak():
     return jsonify(erabiltzaile_kudeaketa.listaErabiltzaileakOnartuta())
-
-
 @app.route('/update_user', methods=['POST']) 
 def update_user():
     posta = request.form.get('posta')
     izena = request.form.get('izena')
-    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, posta)
+    ePosta = request.form.get('original_posta')
+    eIzena = request.form.get('original_izena')
+    if not posta:
+        posta = ePosta
+    if not izena:
+        izena = eIzena
+    erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, ePosta)
     return redirect(url_for('aldatu_datuak'))
 
 
