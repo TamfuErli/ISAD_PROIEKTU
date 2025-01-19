@@ -94,7 +94,7 @@ def gehituAlokairua(pPosta, kodeFilma):
     kodePP = Erabiltzailea.getErabiltzaileKodea(pPosta)
     existingAlokairua=Alokairua.getAlokairua(kodeFilma, kodePP)
     if not existingAlokairua:
-        Erabiltzailea.gehituAlokairuKop(kodePP)
+        Erabiltzailea.gehituAlokairuKop(pPosta)
         data = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         db.insert("INSERT INTO Alokairua (kodeFilm, kodePers, data)  VALUES (?, ?, ?)", (kodeFilma, kodePP, data))
         return {"success": True}
