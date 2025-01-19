@@ -233,11 +233,11 @@ def filma_Onartu():
     film_kudeaketa.filmaOnartu(kodeFilm)
     return redirect(url_for('eskaera_film'))
 
-@app.route('/film_balorazioa')
+@app.route('/film_balorazioa', methods=['POST'])
 def Baloratu_peli():
     session['kodeFilma'] = request.form.get('kodeFilma')
+    print(session['kodeFilma'])
     return render_template('filma_baloratu.html')
 @app.route('/get_balorazioak')
 def get_balorazioak():
-    balorazioak = puntuazio_kudeaketa.get_balorazioGuztiak(session['kodeFilma'])
-    return jsonify(balorazioak)
+    return jsonify(puntuazio_kudeaketa.get_balorazioGuztiak(session['kodeFilma']))

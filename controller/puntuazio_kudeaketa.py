@@ -6,11 +6,9 @@ db = Connection()
 
 def get_balorazioGuztiak(kodeFilma):
     filma = kodeFilma
-    balorazioak = db.select("SELECT * FROM Balorazioa WHERE kodeFilma = ?", (filma,))
+    balorazioak = db.select("SELECT * FROM Puntuazioa WHERE kodeFilm = ?", (filma,))
     baloratuGabeJSON = [
         {
-            "kodeFilma": balorazioa[0],
-            "kodeErabiltzailea": balorazioa[1],
             "puntuazioa": balorazioa[2],
             "iruzkina": balorazioa[3]
         }

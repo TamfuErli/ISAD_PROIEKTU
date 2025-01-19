@@ -73,7 +73,7 @@
                 </tr>
             </thead>
             <tbody id="valoraciones">
-                <!-- Las valoraciones se cargarán aquí dinámicamente -->
+                
             </tbody>
         </table>
     </div>
@@ -84,7 +84,7 @@
         });
 
         async function cargarValoraciones(movieId) {
-            const response = await fetch(`/get_balorazioak/${session['kodeFilma']}`);
+            const response = await fetch(`/get_balorazioak`);
             const valoraciones = await response.json();
 
             const valoracionesTbody = document.getElementById('valoraciones');
@@ -94,8 +94,8 @@
                 const valoracionRow = document.createElement('tr');
                 valoracionRow.innerHTML = `
                     <td>${v.nombre_pelicula}</td>
-                    <td>${v.puntuacion}</td>
-                    <td>${v.descripcion}</td>
+                    <td>${v.puntuazioa}</td>
+                    <td>${v.iruzkina}</td>
                 `;
                 valoracionesTbody.appendChild(valoracionRow);
             });
