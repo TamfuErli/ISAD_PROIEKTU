@@ -213,7 +213,6 @@ def get_saved_movies():
     print(saved_movies)
     return jsonify([x[0] for x in saved_movies])
 
-<<<<<<< HEAD
 
 @app.route('/eskaera_film')
 def eskaera_film():
@@ -227,8 +226,7 @@ def filma_Onartu():
     kodeFilm = request.form.get('kodeFilm')
     film_kudeaketa.filmaOnartu(kodeFilm)
     return redirect(url_for('eskaera_film'))
-=======
+
 @app.route('/filma_baloratu', methods=['GET'])
 def filma_baloratu():
     return render_template('filma_baloratu.html')
->>>>>>> 4a261001184466e4b74e0faee8b6d4fc0756a39f
