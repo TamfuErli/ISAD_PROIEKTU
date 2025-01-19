@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            margin-bottom: 50px;
         }
         .header {
             background-color: #333;
@@ -88,6 +89,15 @@
             font-weight: bold;
             color: #333;
         }
+        .center-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .center-button button {
+            font-size: 20px;
+            padding: 10px 20px;
+        }
     </style>
 </head>
 <body>
@@ -96,26 +106,29 @@
     </div>
     <div class="content">
         <div class="recommendations">
-            <h2>Gomendatutako filmak</h2>
+            <h2>Alokatutako filmak</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Film Kodea</th>
+                        <th>Izena</th>
+                        <th>Filmaren data</th>
+                        <th>Irudia</th>                   
                     </tr>
                 </thead>
                 <tbody>
-                    {% for alokairua in Alokairua %}
+                    {% for filma in Filmak %}
                     <tr>
-                        <td>{{ alokairua.kodeFilm }}</td>>
+                        <td>{{ filma[1] }}</td>
+                        <td>{{ filma[5] }}</td>
+                        <td><img src="https://image.tmdb.org/t/p/w500{{ filma[2] }}" alt="{{ filma[1] }}">
+                        </td>                    
                     </tr>
                     {% endfor %}
                 </tbody>
-                </tbody>
             </table>
-            </ul>
         </div>
     </div>
-    <div class="buttons">
+    <div class="center-button">
         <button onclick="location.href='/profile'">Atzera</button>
     </div>
 </body>

@@ -8,7 +8,7 @@ class Alokairua:
         self.data = data
         self.kodeFilm = kodeFilm
         self.kodePers = kodePers
-
+        
     def getKodeFilm(self):
         return self.kodeFilm
 

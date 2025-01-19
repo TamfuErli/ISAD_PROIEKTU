@@ -22,7 +22,7 @@ class Pelikula:
     def getPelikula(kodeFilm):
         return db.select("SELECT * FROM Filma WHERE kodeFilm = ?", (kodeFilm,))
     
-    def getPelikulaKodea(izena):
+    def getPelikulaKodea(izena): 
         return db.select("SELECT kodeFilm FROM Filma WHERE izena = ?", (izena,))
     
     def getEskaera(kodeFilm, kodePers):

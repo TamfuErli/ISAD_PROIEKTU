@@ -92,9 +92,15 @@ def admin():
 
 @app.route('/alokairu')
 def alokairu():
-    posta = request.form.get('posta')
-    alokatutakoFilmak = film_kudeaketa.alokatutakoFilmak(posta)  # Fetch approved films from the database
-    return render_template('alokairu.html', Pelikulak=alokatutakoFilmak)
+    pPosta = session.get('sPosta')
+    pertsonarenAlokairuak= film_kudeaketa.alokatutakoFilmak(pPosta) 
+    alokatutakoFilmak = []
+    for alokairu in pertsonarenAlokairuak:
+        kodea = alokairu.getKodeFilm()
+        film = film_kudeaketa.billatuPelikula(kodea)
+        if film:
+            alokatutakoFilmak.extend(film)
+    return render_template('alokairu.html', Filmak=alokatutakoFilmak)
 
 @app.route('/submit_alokairu', methods=['POST'])
 def submit_alokairu():

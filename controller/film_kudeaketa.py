@@ -39,6 +39,11 @@ def onartutakoFilmak():
     onartutakoPelikulak = db.select("SELECT * FROM Filma WHERE onartua = 1")
     return [Pelikula(*onartutakoPelikula) for onartutakoPelikula in onartutakoPelikulak]
 
-def alokatutakoFilmak(pKodePers):
+def alokatutakoFilmak(pPosta):
+    pKodePers = Erabiltzailea.getErabiltzaileKodea(pPosta)
     alokatutakoPelikulak = db.select("SELECT * FROM Alokairua WHERE kodePers = ?", (pKodePers,))
-    return [Alokairua(*alokatutakoPelikula) for alokatutakoPelikula in alokatutakoPelikulak]
+    return [Alokairua.Alokairua(*alokatutakoPelikula) for alokatutakoPelikula in alokatutakoPelikulak]
+
+def billatuPelikula(kodeFilm):
+    pPelikula = Pelikula.getPelikula(kodeFilm)
+    return pPelikula
