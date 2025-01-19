@@ -7,12 +7,27 @@ from datetime import datetime
 db=Connection()
 
 def erabiltzailea_logeatu(pPosta, pPasahitza):
+    erabilttzailea = bilatuErabiltzailea(pPosta)
     pasahitza=Erabiltzailea.getPasahitza(pPosta)
-    if pasahitza==pPasahitza:
-        session['sPosta'] = pPosta
-        return True
+    onartua=erabiltzaileaOnartua(pPosta)
+        
+    if erabilttzailea:
+        if pasahitza==pPasahitza:
+            if onartua==1:
+                session['sPosta'] = pPosta
+                logeatua= True
+                session['adminDa'] = Erabiltzailea.adminDa(pPosta)
+                session['sPosta'] = pPosta
+            else:
+                logeatua= False
+                session["error"]=1
+        else:
+            logeatua= False 
+            session["error"]=0      
     else:
-        return False
+        logeatua= False
+        session["error"]=2  
+    return logeatua
 
 def filmAlokairuaErakutsi():
     posta = session.get('sPosta')

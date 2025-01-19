@@ -20,28 +20,13 @@ def login():
 def submit_login():
     posta = request.form['posta']
     pasahitza = request.form['password']
-    erabilttzailea = erabiltzaile_kudeaketa.bilatuErabiltzailea(posta)
-    if erabilttzailea:
-        pashitza_egokia=erabiltzaile_kudeaketa.erabiltzailea_logeatu(posta, pasahitza)
-        onartua=erabiltzaile_kudeaketa.erabiltzaileaOnartua(posta)
-        erabilttzailea = erabiltzaile_kudeaketa.bilatuErabiltzailea(posta)
-        if onartua==1:
-            if pashitza_egokia:
-                session['adminDa'] = erabiltzaile_kudeaketa.Erabiltzailea.adminDa(posta)
-                session['loged'] = pashitza_egokia
-                session['sPosta'] = posta
-                if session['adminDa']:
-                    return redirect(url_for('admin'))
-                else:
-                    return redirect(url_for('home_loged'))
-            else:
-                session["error"]=0
-                return redirect(url_for('error'))     
+    logeatua=erabiltzaile_kudeaketa.erabiltzailea_logeatu(posta, pasahitza)
+    if logeatua:
+        if session['adminDa']:
+            return redirect(url_for('admin'))
         else:
-            session["error"]=1
-            return redirect(url_for('error'))
+            return redirect(url_for('home_loged'))
     else:
-        session["error"]=2
         return redirect(url_for('error'))
 
 @app.route('/error')
