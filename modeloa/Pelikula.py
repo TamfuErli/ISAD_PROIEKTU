@@ -33,3 +33,5 @@ class Pelikula:
     
     def getPelikulaOnartua(kodeFilm):
         return db.select("SELECT onartua FROM Filma WHERE kodeFilm = ?", (kodeFilm,))
+    def setOnartua(kodeFilm):
+        db.update("UPDATE Filma SET onartua = 1 WHERE kodeFilm = ?", (kodeFilm,))

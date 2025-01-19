@@ -47,3 +47,22 @@ def alokatutakoFilmak(pPosta):
 def billatuPelikula(kodeFilm):
     pPelikula = Pelikula.getPelikula(kodeFilm)
     return pPelikula
+
+def ezOnartutakoFilmak():
+    ezOnartutakoPelikulak = db.select("SELECT * FROM Filma WHERE onartua = 0")
+    film_json = [
+        {
+            "kodeFilm": ezOnartutakoPelikula[0],
+            "izena": ezOnartutakoPelikula[1],
+            "poster_path": ezOnartutakoPelikula[2],
+            "deskripzioa": ezOnartutakoPelikula[3],
+            "balorazioa": ezOnartutakoPelikula[4],
+            "data": ezOnartutakoPelikula[5],
+            "onartua": ezOnartutakoPelikula[6]
+        }
+        for ezOnartutakoPelikula in ezOnartutakoPelikulak
+    ]
+    return film_json
+def filmaOnartu(pkodeFilm):
+    kodeFilm = pkodeFilm
+    Pelikula.setOnartua(kodeFilm)
