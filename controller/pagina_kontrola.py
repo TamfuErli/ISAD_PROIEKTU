@@ -213,6 +213,8 @@ def get_saved_movies():
     print(saved_movies)
     return jsonify([x[0] for x in saved_movies])
 
-@app.route('/filma_baloratu', methods=['GET'])
+@app.route('/filma_baloratu')
 def filma_baloratu():
+    pPosta = session.get('sPosta')
+    kodeFilma = request.form.get('kodeFilma')
     return render_template('filma_baloratu.html')
