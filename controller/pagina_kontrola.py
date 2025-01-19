@@ -83,6 +83,14 @@ def submit_datuak():
     izena = request.form['izenBerria']
     email = request.form['emailBerria']
     sPosta = session['sPosta']
+    if not posta:
+        posta = sPosta
+    if erabiltzaile_kudeaketa.bilatuErabiltzailea(posta):
+        session["error"]=4
+        return redirect(url_for('error'))
+    else:
+        erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, posta, sPosta)
+        return redirect(url_for('aldatu_datuak'))
     erabiltzaile_kudeaketa.aldatuErabiltzailea(izena, email, sPosta)
     return redirect(url_for('home_loged'))
 
