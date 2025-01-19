@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from flask import session
-from your_application import app, film_kudeaketa, erabiltzaile_kudeaketa
+from controller.pagina_kontrola import app,film_kudeaketa, erabiltzaile_kudeaketa
 
 class TestAlokatu(unittest.TestCase):
 
