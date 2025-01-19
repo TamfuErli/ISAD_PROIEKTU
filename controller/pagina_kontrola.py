@@ -1,5 +1,5 @@
 from flask import flash, render_template, Flask, session, url_for, redirect, request, make_response, request, jsonify
-from controller import erabiltzaile_kudeaketa, film_kudeaketa
+from controller import erabiltzaile_kudeaketa, film_kudeaketa, puntuazio_kudeaketa
 import sqlite3 
 import requests
 from modeloa import Erabiltzailea, Pelikula, PelikulaList, Connection
@@ -232,3 +232,12 @@ def filma_Onartu():
     kodeFilm = request.form.get('kodeFilm')
     film_kudeaketa.filmaOnartu(kodeFilm)
     return redirect(url_for('eskaera_film'))
+
+@app.route('/filma_baloratu', methods=['POST'])
+def filma_baloratu():
+    session['kodeFilma'] = request.form.get('kodeFilma')
+    return render_template('filma_baloratu.html')
+@app.route('/get_balorazioak')
+def get_balorazioak():
+    balorazioak = puntuazio_kudeaketa.get_balorazioGuztiak(session['kodeFilma'])
+    return jsonify(balorazioak)

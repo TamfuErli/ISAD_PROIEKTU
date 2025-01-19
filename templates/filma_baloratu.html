@@ -61,15 +61,45 @@
             <button type="submit">Enviar valoración</button>
         </form>
     </div>
-
-    <!-- Valoraciones -->
-    <div id="valoraciones">
-        <h3>Valoraciones</h3>
+    <!-- Tabla de Valoraciones -->
+    <div id="valoraciones-section">
+        <h3>Valoraciones de la película</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre de la Película</th>
+                    <th>Puntuación</th>
+                    <th>Descripción de la Valoración</th>
+                </tr>
+            </thead>
+            <tbody id="valoraciones">
+                <!-- Las valoraciones se cargarán aquí dinámicamente -->
+            </tbody>
+        </table>
     </div>
 
     <script>
-        // Cargar valoraciones al cargar la página
-        cargarValoraciones(modeloa.Pelikula.kodeFilma); 
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarValoraciones(123); // Cargar valoraciones al cargar la página
+        });
+
+        async function cargarValoraciones(movieId) {
+            const response = await fetch(`/get_balorazioak/${session['kodeFilma']}`);
+            const valoraciones = await response.json();
+
+            const valoracionesTbody = document.getElementById('valoraciones');
+            valoracionesTbody.innerHTML = '';
+
+            valoraciones.forEach(v => {
+                const valoracionRow = document.createElement('tr');
+                valoracionRow.innerHTML = `
+                    <td>${v.nombre_pelicula}</td>
+                    <td>${v.puntuacion}</td>
+                    <td>${v.descripcion}</td>
+                `;
+                valoracionesTbody.appendChild(valoracionRow);
+            });
+        }
     </script>
 </body>
 </html>
