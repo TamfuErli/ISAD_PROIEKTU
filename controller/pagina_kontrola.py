@@ -238,6 +238,16 @@ def film_balorazioa():
     session['kodeFilma'] = request.form.get('kodeFilma')
     print(session['kodeFilma'])
     return render_template('filma_baloratu.html')
+
 @app.route('/get_balorazioak')
 def get_balorazioak():
     return jsonify(puntuazio_kudeaketa.get_balorazioGuztiak(session['kodeFilma']))
+
+@app.route('/submit_balorazioa', methods=['POST'])
+def submit_balorazioa():
+    kodeFilma = session['kodeFilma']
+    kodeErabiltzailea = Erabiltzailea.getErabiltzaileKodea(session['sPosta'])
+    puntuazioa = request.form.get('puntuazioa')
+    iruzkina = request.form.get('iruzkina')
+    puntuazio_kudeaketa.gehituBalorazioa(kodeFilma, kodeErabiltzailea, puntuazioa, iruzkina)
+    return redirect(url_for('filma_baloratu'))
