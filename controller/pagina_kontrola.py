@@ -222,6 +222,7 @@ def filma_baloratu():
 @app.route('/eskaera_film')
 def eskaera_film():
     return render_template('filma_eskaerak.html')
+
 @app.route('/film_lista')
 def film_lista():
     return jsonify(film_kudeaketa.ezOnartutakoFilmak())

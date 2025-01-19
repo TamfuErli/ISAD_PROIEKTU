@@ -124,11 +124,9 @@
                         <td><img src="https://image.tmdb.org/t/p/w500{{ filma[2] }}" alt="{{ filma[1] }}">
                         </td>               
                         <td>
-                            <form action="{{ url_for('filma_baloratu') }}" method="post">
                                 <input type="hidden" name="kodeFilma" value="{{ filma[0] }}">
-                                <button type="submit">Baloratu</button>
-                            </form>
-                            </td>
+                                <button onclick="location.href='/filma_baloratu'">Baloratu</button>
+                        </td>   
                     </tr>
                     {% endfor %}
                 </tbody>
