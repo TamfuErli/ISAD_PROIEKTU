@@ -212,3 +212,7 @@ def get_saved_movies():
     saved_movies=Pelikula.getPelikulaKodeGuztiak()
     print(saved_movies)
     return jsonify([x[0] for x in saved_movies])
+
+@app.route('/filma_baloratu', methods=['GET'])
+def filma_baloratu():
+    return render_template('filma_baloratu.html')

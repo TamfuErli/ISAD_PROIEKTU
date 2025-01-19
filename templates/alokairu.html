@@ -112,7 +112,8 @@
                     <tr>
                         <th>Izena</th>
                         <th>Filmaren data</th>
-                        <th>Irudia</th>                   
+                        <th>Irudia</th>      
+                        <th>Baloratu</th>                                
                     </tr>
                 </thead>
                 <tbody>
@@ -121,7 +122,13 @@
                         <td>{{ filma[1] }}</td>
                         <td>{{ filma[5] }}</td>
                         <td><img src="https://image.tmdb.org/t/p/w500{{ filma[2] }}" alt="{{ filma[1] }}">
-                        </td>                    
+                        </td>               
+                        <td>
+                            <form action="{{ url_for('filma_baloratu') }}" method="post">
+                                <input type="hidden" name="kodeFilma" value="{{ filma[0] }}">
+                                <button type="submit">Baloratu</button>
+                            </form>
+                            </td>
                     </tr>
                     {% endfor %}
                 </tbody>
