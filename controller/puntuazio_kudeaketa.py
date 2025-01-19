@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify, session, abort # type: ignore
-from modeloa.Balorazioa import balorazioa_gorde, get_balorazioa
+from modeloa import Balorazioa, Pelikula, Erabiltzailea
 
-valoraciones_bp = Blueprint('valoraciones', __name__)
-
-@valoraciones_bp.route('/rate/<int:movie_id>', methods=['POST'])
 def baloratu_pelikula(movie_id):
     """
     Guarda la valoración de un usuario para una película.
@@ -24,15 +21,10 @@ def baloratu_pelikula(movie_id):
 
     return jsonify({"message": "Valoración registrada correctamente."}), 201
 
-@valoraciones_bp.route('/ratings/<int:movie_id>', methods=['GET'])
-def get_balorazioGuztiak(movie_id):
+def get_balorazioGuztiak():
     """
-    Obtiene todas las valoraciones de una película.
+    Devuelve todas las valoraciones de todas las películas.
     """
-    valoraciones = get_balorazioa(movie_id)
-    valoraciones_list = [
-        {"usuario_id": v[0], "puntuacion": v[1], "comentario": v[2], "fecha": v[3]}
-        for v in valoraciones
-    ]
-
-    return jsonify(valoraciones_list), 200
+    balorazioak = Balorazioa.select()
+    return jsonify([b.serialize() for b in balorazioak])
+    
