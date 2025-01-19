@@ -58,7 +58,10 @@
             <label for="comentario">Comentario (opcional):</label>
             <textarea id="comentario" name="comentario" rows="4" cols="50"></textarea>
             
-            <button type="submit">Enviar valoración</button>
+            <form action="{{ url_for('submit_balorazioa') }}" method="post">
+                <input type="hidden" name="kodeFilma" value="{{ kodeFilma }}">
+                <button type="submit">Baloratu</button>
+            </form>        
         </form>
     </div>
     <!-- Tabla de Valoraciones -->

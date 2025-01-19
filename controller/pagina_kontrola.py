@@ -217,7 +217,7 @@ def get_saved_movies():
 def filma_baloratu():
     pPosta = session.get('sPosta')
     kodeFilma = request.form.get('kodeFilma')
-    return render_template('filma_baloratu.html')
+    return render_template('filma_baloratu.html', kodeFilma=kodeFilma, posta=pPosta)
 
 @app.route('/eskaera_film')
 def eskaera_film():
@@ -245,8 +245,9 @@ def get_balorazioak():
 
 @app.route('/submit_balorazioa', methods=['POST'])
 def submit_balorazioa():
+    pPosta = session.get('sPosta')
     kodeFilma = session['kodeFilma']
-    kodeErabiltzailea = Erabiltzailea.getErabiltzaileKodea(session['sPosta'])
+    kodeErabiltzailea = Erabiltzailea.getErabiltzaileKodea(pPosta)
     puntuazioa = request.form.get('puntuazioa')
     iruzkina = request.form.get('iruzkina')
     puntuazio_kudeaketa.gehituBalorazioa(kodeFilma, kodeErabiltzailea, puntuazioa, iruzkina)

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, session, abort # type: ignore
-from modeloa import Balorazioa, Pelikula, Erabiltzailea
+from modeloa import Pelikula, Erabiltzailea
 from modeloa import Connection
+from modeloa.Balorazioa import Balorazioa
 
 db = Connection()
 
@@ -16,3 +17,14 @@ def get_balorazioGuztiak(kodeFilma):
     ]
     return baloratuGabeJSON
     
+def gehituBalorazioa(kodeFilma, kodeErabiltzailea, puntuazioa, iruzkina):
+    existing_balorazioa=Balorazioa.getBalorazioa(kodeFilma, kodeErabiltzailea)
+    if not existing_balorazioa:
+        kodeFilm = kodeFilma
+        kodePers = kodeErabiltzailea
+        puntuazioa = puntuazioa
+        iruzkina = iruzkina
+        db.insert(" INSERT INTO Puntuazioa (kodeFilm, kodePers, puntuazioa, iruzkina) VALUES (?, ?, ?, ?)", (kodeFilm, kodePers, puntuazioa, iruzkina))
+        return True
+    else:
+        return False
