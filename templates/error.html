@@ -31,15 +31,21 @@
     </div>
     <div class="container">
         {% if error == 0 %}
-            <h2>pasaitha desegokia bro</h2>
+            <h2>pasaitha desegokia da</h2>
+            <a href="/login" class="button">Go to Login</a>
         {% elif error == 1 %}
-            <h2>Tu ha esperar matao</h2>
+            <h2>oraindik ez zara izan onartua</h2>
+            <a href="/" class="button">Go to Login</a>
         {% elif error == 2  %}
             <h2>PIZA QUE NO EXISTES</h2>
+            <a href="/register" class="button">Go to register</a>
         {% elif error == 3 %}
-            <h2>NO QUIERAS ROBAR A OTRO EL EMAIL PAYO</h2>
+            <h2>Beste erabiltzaile bat existitzen da gmail honekin</h2>
+            <a href="/register" class="button">Go to register</a>
+        {% elif error == 4 %}
+            <h2>datu honekin beste erabiltzaile bat dago</h2>
+            <a href="/aldatu_datuak" class="button">atzera joan</a>
         {% endif %}
-        <a href="/login" class="button">Go to Login</a>
     </div>
 </body>
 </html>
