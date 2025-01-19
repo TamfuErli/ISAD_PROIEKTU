@@ -240,7 +240,7 @@ def get_balorazioak():
 def submit_balorazioa():
     kodeFilma = session['kodeFilma']
     kodeErabiltzailea = Erabiltzailea.getErabiltzaileKodea(session['sPosta'])
-    puntuazioa = request.form.get('puntuazioa')
+    nota = request.form.get('puntuazioa')
     iruzkina = request.form.get('iruzkina')
-    puntuazio_kudeaketa.gehituBalorazioa(kodeFilma, kodeErabiltzailea, puntuazioa, iruzkina)
+    puntuazio_kudeaketa.gehituBalorazioa(kodeFilma, kodeErabiltzailea, nota, iruzkina)
     return redirect(url_for('filma_baloratu'))
