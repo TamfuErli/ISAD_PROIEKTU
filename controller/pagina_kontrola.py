@@ -241,3 +241,11 @@ def Baloratu_peli():
 def get_balorazioak():
     balorazioak = puntuazio_kudeaketa.get_balorazioGuztiak(session['kodeFilma'])
     return jsonify(balorazioak)
+
+@app.route('/search_moviesdb', methods=['GET'])
+def search_moviesdb():
+    izena = request.args.get('query', default="", type=str)
+    pelikulaIzenburuarekin = film_kudeaketa.billatuPelikulaIzenburuarekin(izena)
+    print(pelikulaIzenburuarekin)
+    return render_template('home_loged.html', Pelikulak=pelikulaIzenburuarekin)
+

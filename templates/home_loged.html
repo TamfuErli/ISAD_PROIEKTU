@@ -107,43 +107,49 @@
             <button onclick="location.href='/propose'">Proposatu</button>
             <button onclick="location.href='/logout'">Saioa itxi</button>
         </div>
+    </div>
+    <div class="search-bar">
+        <form action="{{ url_for('search_moviesdb') }}" method="get">
+            <input type="text" name="query" placeholder="Bilatu pelikula baten izena..." style="padding: 10px; width: 70%; border: 1px solid #ddd; border-radius: 5px;">
+            <button type="submit">Bilatu</button>
+        </form>
+    </div>
+    <div class="content">
+        <div class="recommendations">
+            <h2>Gomendatutako filmak</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Film Izena</th>
+                        <th>Deskripzioa</th>
+                        <th>Balorazioa</th>
+                        <th>Data</th>
+                        <th></th>
+                        <th>Alokatu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pelikula in Pelikulak %}
+                    <tr>
+                        <td class="film-name">{{ pelikula.izena }}</td>
+                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ pelikula.deskripzioa }}</td>
+                        <td>{{ pelikula.balorazioa }}</td>
+                        <td>{{ pelikula.data }}</td>
+                        <td><img src="https://image.tmdb.org/t/p/w500{{ pelikula['poster_path'] }}" alt="{{ pelikula['title'] }}">
+                        </td>
+                        <td>
+                        <form action="{{ url_for('submit_alokairu') }}" method="post">
+                            <input type="hidden" name="kodeFilma" value="{{ pelikula.kodeFilma }}">
+                            <button type="submit">Alokatu</button>
+                        </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </tbody>
+            </table>
+            </ul>
         </div>
-        <div class="content">
-            <div class="recommendations">
-                <h2>Gomendatutako filmak</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Film Izena</th>
-                            <th>Deskripzioa</th>
-                            <th>Balorazioa</th>
-                            <th>Data</th>
-                            <th></th>
-                            <th>Alokatu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for pelikula in Pelikulak %}
-                        <tr>
-                            <td class="film-name">{{ pelikula.izena }}</td>
-                            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ pelikula.deskripzioa }}</td>
-                            <td>{{ pelikula.balorazioa }}</td>
-                            <td>{{ pelikula.data }}</td>
-                            <td><img src="https://image.tmdb.org/t/p/w500{{ pelikula['poster_path'] }}" alt="{{ pelikula['title'] }}">
-                            </td>
-                            <td>
-                            <form action="{{ url_for('submit_alokairu') }}" method="post">
-                                <input type="hidden" name="kodeFilma" value="{{ pelikula.kodeFilma }}">
-                                <button type="submit">Alokatu</button>
-                            </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    </tbody>
-                </table>
-                </ul>
-            </div>
-        </div>
-        </body>
-        </html>
+    </div>
+    </body>
+</html>

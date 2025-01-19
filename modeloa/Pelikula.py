@@ -35,3 +35,7 @@ class Pelikula:
         return db.select("SELECT onartua FROM Filma WHERE kodeFilm = ?", (kodeFilm,))
     def setOnartua(kodeFilm):
         db.update("UPDATE Filma SET onartua = 1 WHERE kodeFilm = ?", (kodeFilm,))
+
+    def getPelikulaIzenburuarekin(izena):
+        izenburuPelikulak = db.select("SELECT * FROM Filma WHERE izena  LIKE ?", ('%' + izena + '%',))
+        return [Pelikula(*izenburuPelikulak) for izenburuPelikulak in izenburuPelikulak]

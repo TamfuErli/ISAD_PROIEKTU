@@ -48,6 +48,10 @@ def billatuPelikula(kodeFilm):
     pPelikula = Pelikula.getPelikula(kodeFilm)
     return pPelikula
 
+def billatuPelikulaIzenburuarekin(izena):
+    pPelikula = Pelikula.getPelikulaIzenburuarekin(izena)
+    return pPelikula
+
 def ezOnartutakoFilmak():
     ezOnartutakoPelikulak = db.select("SELECT * FROM Filma WHERE onartua = 0")
     film_json = [
