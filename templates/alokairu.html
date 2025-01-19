@@ -148,7 +148,10 @@
                         <td>
                             <div class="action-buttons">
                                 <input type="hidden" name="kodeFilma" value="{{ filma[0] }}" >
-                                <button onclick="location.href='/film_balorazioa'">Baloratu</button>
+                                <form method="post" action="/film_balorazioa" style="display:inline;">
+                                    <input type="hidden" name="kodeFilma" value="{{ filma[0] }}">
+                                    <button type="submit">Baloratu</button>
+                                </form>
                                 <button class="circular-button" onclick="window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank')">PLAY ᐅ</button>
                             </div>
                         </td>   
