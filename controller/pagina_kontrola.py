@@ -234,13 +234,11 @@ def film_balorazioa():
 
 @app.route('/get_balorazioak')
 def get_balorazioak():
-    return jsonify(puntuazio_kudeaketa.get_balorazioGuztiak(session['kodeFilma']))
+    balorazioak = puntuazio_kudeaketa.get_balorazioGuztiak(session['kodeFilma'])
+    return jsonify(balorazioak)
 
-@app.route('/submit_balorazioa', methods=['POST'])
-def submit_balorazioa():
-    kodeFilma = session['kodeFilma']
-    kodeErabiltzailea = Erabiltzailea.getErabiltzaileKodea(session['sPosta'])
-    nota = request.form.get('puntuazioa')
-    iruzkina = request.form.get('iruzkina')
-    puntuazio_kudeaketa.gehituBalorazioa(kodeFilma, kodeErabiltzailea, nota, iruzkina)
-    return redirect(url_for('filma_baloratu'))
+@app.route('/search_moviesdb', methods=['GET'])
+def search_moviesdb():
+    izena = request.args.get('query', default="", type=str)
+    pelikulaIzenburuarekin = film_kudeaketa.billatuPelikulaIzenburuarekin(izena)
+    return render_template('home_loged.html', Pelikulak=pelikulaIzenburuarekin)
