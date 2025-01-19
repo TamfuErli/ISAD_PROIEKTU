@@ -3,81 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filma</title>
-    <script>
-        async function BalorazioaBidalli(movieId) {
-            const puntuacion = document.getElementById('puntuacion').value;
-            const comentario = document.getElementById('comentario').value;
-
-            const response = await fetch(`/rate/${movieId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ puntuacion: parseInt(puntuacion), comentario })
-            });
-
-            if (response.ok) {
-                alert("¡Gracias por tu valoración!");
-                cargarValoraciones(movieId);
-            } else {
-                const error = await response.json();
-                alert(`Error: ${error.message}`);
-            }
+    <title>Filmaren balorazioak</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-
-        async function cargarValoraciones(movieId) {
-            const response = await fetch(`/ratings/${movieId}`);
-            const valoraciones = await response.json();
-
-            const valoracionesDiv = document.getElementById('valoraciones');
-            valoracionesDiv.innerHTML = '';
-
-            valoraciones.forEach(v => {
-                const valoracionElement = document.createElement('div');
-                valoracionElement.innerHTML = `
-                    <p><strong>Usuario:</strong> ${v.usuario_id}</p>
-                    <p><strong>Puntuación:</strong> ${v.puntuacion}</p>
-                    <p><strong>Comentario:</strong> ${v.comentario}</p>
-                    <p><em>${v.fecha}</em></p>
-                    <hr>
-                `;
-                valoracionesDiv.appendChild(valoracionElement);
-            });
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-    </script>
+        .header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .header button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .header button:hover {
+            background-color: #777;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 2000px;
+            margin: 0 auto;
+        }
+        .recommendations {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .recommendations h2 {
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 5px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .film-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Detalles de la Película</h1>
-
-    <!-- Formulario de Valoración -->
-    <div id="rating-section">
-        <h1>Valorar Película</h1>
-        <form action="{{ url_for('submit_balorazioa') }}" method="post">
-            <label for="puntuazioa">Puntuación (1-5):</label>
-            <input type="number" id="puntuazioa" name="puntuazioa" min="1" max="5" required>
-            
-            <label for="iruzkina">Comentario (opcional):</label>
-            <textarea id="iruzkina" name="iruzkina" rows="4" cols="50"></textarea>
-            
-            <input type="hidden" name="kodeFilma" value="{{ kodeFilma }}">
-            <button type="submit">Enviar Valoración</button>
-        </form>
-    </div>
-    <!-- Tabla de Valoraciones -->
-    <div id="valoraciones-section">
-        <h3>Valoraciones de la película</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Puntuación</th>
-                    <th>Descripción de la Valoración</th>
-                </tr>
-            </thead>
-            <tbody id="valoraciones">
+    <div class="header">
+        <h1>Filmaren balorazioak</h1>
+        <div class="buttons">
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="location.href='/alokairu'">Atzera</button>
+            </div>
+        </div>
+    </div>    
+    <div class="content">
+        <div class="recommendations">
+            <h1>Baloratu Filma</h1>
+            <form action="{{ url_for('submit_balorazioa') }}" method="post">
+                <label for="puntuazioa">Puntuaketa (1-5):</label>
+                <input type="number" id="puntuazioa" name="puntuazioa" min="1" max="5" required>
                 
-            </tbody>
-        </table>
+                <label for="iruzkina">Iruzkina (aukerazkoa):</label>
+                <textarea id="iruzkina" name="iruzkina" rows="4" cols="50"></textarea>
+                
+                <input type="hidden" name="kodeFilma" value="{{ kodeFilma }}">
+                <button type="submit">Bidali balorazioa</button>
+            </form>
+            <div id="valoraciones-section">
+                <h3>Pelikularen balorazioak</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Puntuaketa</th>
+                            <th>Balorazioaren iruzkina</th>
+                        </tr>
+                    </thead>
+                    <tbody id="valoraciones">
+                        <!-- Las valoraciones se cargarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             cargarValoraciones(123); // Cargar valoraciones al cargar la página
