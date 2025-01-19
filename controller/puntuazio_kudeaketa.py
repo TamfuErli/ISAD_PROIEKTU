@@ -1,16 +1,15 @@
 from flask import Blueprint, request, jsonify, session, abort # type: ignore
-from modeloa import Balorazioa, Pelikula, Erabiltzailea
+from modeloa import Pelikula, Erabiltzailea
 from modeloa import Connection
+from modeloa.Balorazioa import Balorazioa
 
 db = Connection()
 
 def get_balorazioGuztiak(kodeFilma):
     filma = kodeFilma
-    balorazioak = db.select("SELECT * FROM Balorazioa WHERE kodeFilma = ?", (filma,))
+    balorazioak = db.select("SELECT * FROM Puntuazioa WHERE kodeFilm = ?", (filma,))
     baloratuGabeJSON = [
         {
-            "kodeFilma": balorazioa[0],
-            "kodeErabiltzailea": balorazioa[1],
             "puntuazioa": balorazioa[2],
             "iruzkina": balorazioa[3]
         }
@@ -18,3 +17,14 @@ def get_balorazioGuztiak(kodeFilma):
     ]
     return baloratuGabeJSON
     
+def gehituBalorazioa(kodeFilma, kodeErabiltzailea, nota, iruzkina):
+    existing_balorazioa=Balorazioa.getBalorazioa(kodeFilma, kodeErabiltzailea)
+    if not existing_balorazioa:
+        kodeFilm = kodeFilma
+        kodePers = kodeErabiltzailea
+        nota = nota
+        iruzkina = iruzkina
+        db.insert(" INSERT INTO Puntuazioa (kodeFilm, kodePers, nota, iruzkina) VALUES (?, ?, ?, ?)", (kodeFilm, kodePers, nota, iruzkina))
+        return True
+    else:
+        return False

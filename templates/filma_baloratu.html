@@ -50,15 +50,16 @@
 
     <!-- Formulario de Valoración -->
     <div id="rating-section">
-        <h3>Valora esta película</h3>
-        <form id="rating-form" onsubmit="event.preventDefault(); enviarValoracion(123);">
-            <label for="puntuacion">Puntuación (1-5):</label>
-            <input type="number" id="puntuacion" name="puntuacion" min="1" max="5" required>
+        <h1>Valorar Película</h1>
+        <form action="{{ url_for('submit_balorazioa') }}" method="post">
+            <label for="puntuazioa">Puntuación (1-5):</label>
+            <input type="number" id="puntuazioa" name="puntuazioa" min="1" max="5" required>
             
-            <label for="comentario">Comentario (opcional):</label>
-            <textarea id="comentario" name="comentario" rows="4" cols="50"></textarea>
+            <label for="iruzkina">Comentario (opcional):</label>
+            <textarea id="iruzkina" name="iruzkina" rows="4" cols="50"></textarea>
             
-            <button type="submit">Enviar valoración</button>
+            <input type="hidden" name="kodeFilma" value="{{ kodeFilma }}">
+            <button type="submit">Enviar Valoración</button>
         </form>
     </div>
     <!-- Tabla de Valoraciones -->
@@ -67,13 +68,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nombre de la Película</th>
                     <th>Puntuación</th>
                     <th>Descripción de la Valoración</th>
                 </tr>
             </thead>
             <tbody id="valoraciones">
-                <!-- Las valoraciones se cargarán aquí dinámicamente -->
+                
             </tbody>
         </table>
     </div>
@@ -84,7 +84,7 @@
         });
 
         async function cargarValoraciones(movieId) {
-            const response = await fetch(`/get_balorazioak/${session['kodeFilma']}`);
+            const response = await fetch(`/get_balorazioak`);
             const valoraciones = await response.json();
 
             const valoracionesTbody = document.getElementById('valoraciones');
@@ -93,9 +93,8 @@
             valoraciones.forEach(v => {
                 const valoracionRow = document.createElement('tr');
                 valoracionRow.innerHTML = `
-                    <td>${v.nombre_pelicula}</td>
-                    <td>${v.puntuacion}</td>
-                    <td>${v.descripcion}</td>
+                    <td>${v.puntuazioa}</td>
+                    <td>${v.iruzkina}</td>
                 `;
                 valoracionesTbody.appendChild(valoracionRow);
             });
